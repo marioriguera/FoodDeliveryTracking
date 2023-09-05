@@ -1,6 +1,9 @@
+using FoodDeliveryTracking.Config;
 using FoodDeliveryTracking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NLog;
+using System;
 
 namespace FoodDeliveryTracking
 {
@@ -16,42 +19,53 @@ namespace FoodDeliveryTracking
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            NlogConfigurator.Initialize();
+            NlogConfigurator.AddConsole();
+            NlogConfigurator.AddDebugger();
+            NlogConfigurator.Start();
 
-            // Data context configuration.
-            builder.Services.AddTransient<ApplicationDC>();
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<ApplicationDC>(options =>
+            var logger = LogManager.GetCurrentClassLogger();
+            try
             {
-                options.UseSqlServer(connectionString);
-            }, ServiceLifetime.Transient);
+                //Apply configs
+                NlogConfigurator.ApplyConfigurationToLogs();
 
-            // Dependencies injection
-            Data.Register.DataDI.AddDependencies(builder.Services);
-
-            // Add services to the container.
-            builder.Services.AddControllers();
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(
-                c =>
+                // Data context configuration.
+                builder.Services.AddTransient<ApplicationDC>();
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                builder.Services.AddDbContext<ApplicationDC>(options =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo
-                    {
-                        Title = "Food Delivery Tracking HENRY",
-                        Version = "v1"
-                    });
+                    options.UseSqlServer(connectionString);
+                }, ServiceLifetime.Transient);
 
-                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                    {
-                        In = ParameterLocation.Header,
-                        Description = "Ingrese el token JWT en este formato: 'Bearer {token}'",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey
-                    });
+                // Dependencies injection
+                Services.Register.ServicesDI.AddDependencies(builder.Services);
+                Data.Register.DataDI.AddDependencies(builder.Services);
 
-                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                // Add services to the container.
+                builder.Services.AddControllers();
+
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(
+                    c =>
                     {
+                        c.SwaggerDoc("v1", new OpenApiInfo
+                        {
+                            Title = "Food Delivery Tracking HENRY",
+                            Version = "v1"
+                        });
+
+                        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                        {
+                            In = ParameterLocation.Header,
+                            Description = "Ingrese el token JWT en este formato: 'Bearer {token}'",
+                            Name = "Authorization",
+                            Type = SecuritySchemeType.ApiKey
+                        });
+
+                        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        {
                         {
                             new OpenApiSecurityScheme
                             {
@@ -63,26 +77,38 @@ namespace FoodDeliveryTracking
                             },
                             new string[] { }
                         }
-                    });
+                        });
+                    }
+                );
+
+                var app = builder.Build();
+                logger.Fatal($"The configuration has been loaded.");
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
                 }
-            );
 
-            var app = builder.Build();
+                app.UseHttpsRedirection();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseAuthorization();
+
+                app.MapControllers();
+
+                logger.Fatal($"The API will start.");
+                app.Run();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
+            catch (Exception ex)
+            {
+                // NLog: catch setup errors
+                logger.Error(ex, "Stopped program because of exception");
+            }
+            finally
+            {
+                NLog.LogManager.Shutdown();
+            }
         }
     }
 }
