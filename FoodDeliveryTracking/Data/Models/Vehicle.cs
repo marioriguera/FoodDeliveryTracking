@@ -35,7 +35,7 @@ namespace FoodDeliveryTracking.Data.Models
         /// <summary>
         /// Gets or sets the current location of the vehicle.
         /// </summary>
-        public virtual Location CurrentLocation { get; set; }
+        public virtual CurrentLocation CurrentLocation { get; set; }
 
         /// <summary>
         /// Configures the entity mapping for the 'Vehicle' model, specifying the table name as 'Vehicles'.
@@ -74,7 +74,12 @@ namespace FoodDeliveryTracking.Data.Models
             modelBuilder.Entity<Vehicle>()
                 .HasOne(o => o.CurrentLocation)
                 .WithOne()
-                .HasForeignKey<Vehicle>(v => v.Id);
+                .HasForeignKey<CurrentLocation>(v => v.ClVehicleId);
+
+            modelBuilder.Entity<Vehicle>()
+                .HasMany(o => o.LocationHistory)
+                .WithOne()
+                .HasForeignKey(v => v.LhVehicleId);
         }
     }
 }

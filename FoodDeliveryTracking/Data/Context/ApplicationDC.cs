@@ -25,9 +25,30 @@ namespace FoodDeliveryTracking.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            Location.Configure(modelBuilder);
+            CurrentLocation.Configure(modelBuilder);
             LocationHistory.Configure_LocationHistory(modelBuilder);
             Order.Configure(modelBuilder);
+            Vehicle.Configure(modelBuilder);
         }
+
+        /// <summary>
+        /// Gets or sets data base set currents locations.
+        /// </summary>
+        public DbSet<CurrentLocation> CurrentLocations { get; set; }
+
+        /// <summary>
+        /// Gets or sets data base set locations history.
+        /// </summary>
+        public DbSet<LocationHistory> LocationsHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets data base set orders.
+        /// </summary>
+        public DbSet<Order> Orders { get; set; }
+
+        /// <summary>
+        /// Gets or sets data base set vehicles.
+        /// </summary>
+        public DbSet<Vehicle> Vehicles { get; set; }
     }
 }
