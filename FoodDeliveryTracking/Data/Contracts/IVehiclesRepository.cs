@@ -1,4 +1,5 @@
-﻿using FoodDeliveryTracking.Services.Models;
+﻿using FoodDeliveryTracking.Data.Models;
+using FoodDeliveryTracking.Services.Models;
 
 namespace FoodDeliveryTracking.Data.Contracts
 {
@@ -12,5 +13,8 @@ namespace FoodDeliveryTracking.Data.Contracts
         /// </summary>
         /// <returns>A task that represents the asynchronous operation and contains a collection of vehicles.</returns>
         Task<ICollection<IVehicle>> GetAllAsync();
+        Task<bool> InsertVehicleAsync(IVehicle vehicle);
+        Task<bool> UpdateVehicleLocationAsync(int vehicleId, CurrentLocation newLocation);  
+        Task<ILocation> GetVehicleLocationAsync(int vehicleId);
     }
 }

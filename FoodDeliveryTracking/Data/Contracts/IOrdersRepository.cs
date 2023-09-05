@@ -1,4 +1,5 @@
-﻿using FoodDeliveryTracking.Services.Models;
+﻿using FoodDeliveryTracking.Data.Models;
+using FoodDeliveryTracking.Services.Models;
 
 namespace FoodDeliveryTracking.Data.Contracts
 {
@@ -13,5 +14,28 @@ namespace FoodDeliveryTracking.Data.Contracts
         /// <param name="order">The order to be created.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task<bool> CreateOrderAsync(IOrder order);
+
+
+        /// <summary>
+        /// Delete a new order asynchronously.
+        /// </summary>
+        /// <param name="orderId">The orderId to be delete.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task<bool> DeleteOrderAsync(int orderId);
+
+        /// <summary>
+        /// Assign a Vehicle To an Order asynchronously.
+        /// </summary>
+        /// <param name="orderId">The orderId to assign the vehicle.</param>
+        /// <param name="vehicleId">The vehicleId to be Assign.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task<bool> AssignVehicleToOrderAsync(int orderId, int vehicleId);
+
+        /// <summary>
+        /// Retrive the order ans the current location.
+        /// </summary>
+        /// <param name="orderId">The orderId to be search.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task<(Order order, ILocation location)> GetOrderAndVehicleLocationAsync(int orderId);
     }
 }
