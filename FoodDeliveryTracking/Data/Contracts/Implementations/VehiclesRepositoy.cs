@@ -1,5 +1,5 @@
 ﻿using FoodDeliveryTracking.Data.Context;
-using FoodDeliveryTracking.Data.Models;
+using FoodDeliveryTracking.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryTracking.Data.Contracts.Implementations
@@ -21,10 +21,11 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         }
 
         /// <inheritdoc />
-        public async Task<ICollection<Vehicle>> GetAllAsync()
+        public async Task<ICollection<IVehicle>> GetAllAsync()
         {
             var vehicles = _context.Vehicles.AsQueryable().Include(x => x.CurrentLocationObject);
-            return await vehicles.ToListAsync();
+            ICollection<IVehicle> ivehicles = await vehicles.Cast<IVehicle>().ToListAsync();
+            return ivehicles;
         }
     }
 }

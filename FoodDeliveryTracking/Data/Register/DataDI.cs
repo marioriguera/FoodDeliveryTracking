@@ -16,6 +16,7 @@ namespace FoodDeliveryTracking.Data.Register
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             services.AddScoped<IVehiclesRepository, VehiclesRepositoy>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
             return services;
         }
     }

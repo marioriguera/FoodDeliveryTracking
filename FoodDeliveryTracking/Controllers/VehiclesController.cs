@@ -3,6 +3,7 @@ using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace FoodDeliveryTracking.Controllers
 {
@@ -29,14 +30,22 @@ namespace FoodDeliveryTracking.Controllers
         /// <returns>An asynchronous task that represents the action's result, which contains a collection of vehicles.</returns>
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<MessageResponse<ICollection<Vehicle>>>> AllVehiclesAsync()
+        public async Task<ActionResult<MessageResponse<ICollection<VehicleResponse>>>> AllVehiclesAsync()
         {
             _logger.LogInfo("AllVehiclesAsync start.");
             try
             {
-                // ToDo: No enviar la clase Vehicle como respuesta.
-                var vehicles = await _vehiclesRepository.GetAllAsync();
-                return Ok(MessageResponse<ICollection<Vehicle>>.Success(vehicles));
+                // Repository response.
+                var repositoryResponse = await _vehiclesRepository.GetAllAsync();
+
+                // ICollection to response.
+                ICollection<VehicleResponse> vehicles = new List<VehicleResponse>();
+                repositoryResponse.ToList().ForEach(v =>
+                {
+                    vehicles.Add(new VehicleResponse(v));
+                });
+
+                return Ok(MessageResponse<ICollection<VehicleResponse>>.Success(vehicles));
             }
             catch (Exception ex)
             {

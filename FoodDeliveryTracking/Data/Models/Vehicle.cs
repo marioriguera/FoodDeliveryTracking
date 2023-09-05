@@ -20,8 +20,8 @@ namespace FoodDeliveryTracking.Data.Models
         public Vehicle(IVehicle vehicle)
         {
             Plate = vehicle.Plate;
-            Orders.Clear();
-            Orders.Concat(vehicle.Orders);
+            OrdersCollection.Clear();
+            OrdersCollection.Concat(vehicle.Orders);
             LocationHistory.Clear();
             LocationHistory.Concat(vehicle.LocationHistory);
             CurrentLocationId = vehicle.CurrentLocationId;
