@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Contracts\" />
     <Folder Include="Models\Request\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,16 +9,6 @@ namespace FoodDeliveryTracking.Data.Models
     public class LocationHistory : Location
     {
         /// <summary>
-        /// Gets or sets location history vehicle id.
-        /// </summary>
-        public int? LhVehicleId { get; set; }
-
-        /// <summary>
-        /// Gets or sets vehicle.
-        /// </summary>
-        public virtual Vehicle? Vehicle { get; set; }
-
-        /// <summary>
         /// Configures the entity mapping for the 'Order' model, specifying the table name as 'Orders'.
         /// </summary>
         /// <param name="modelBuilder">The ModelBuilder instance used to configure the entity mapping.</param>
@@ -55,17 +45,6 @@ namespace FoodDeliveryTracking.Data.Models
                 .HasColumnName(nameof(Longitude))
                 .HasColumnOrder(30)
                 .IsRequired();
-
-            modelBuilder.Entity<LocationHistory>()
-                .Property(l => l.LhVehicleId)
-                .HasColumnType("int")
-                .HasColumnName($"{nameof(LhVehicleId)}")
-                .HasColumnOrder(40);
-
-            modelBuilder.Entity<LocationHistory>()
-                .HasOne(cl => cl.Vehicle)
-                .WithOne()
-                .HasForeignKey<LocationHistory>(cl => cl.LhVehicleId);
         }
     }
 }

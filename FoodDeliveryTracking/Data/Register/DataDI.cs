@@ -1,4 +1,7 @@
-﻿namespace FoodDeliveryTracking.Data.Register
+﻿using FoodDeliveryTracking.Data.Contracts;
+using FoodDeliveryTracking.Data.Contracts.Implementations;
+
+namespace FoodDeliveryTracking.Data.Register
 {
     /// <summary>
     /// Register data layer dependency injections
@@ -12,6 +15,7 @@
         /// <returns>The same collection of services with dependencies added.</returns>
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
+            services.AddScoped<IVehiclesRepository, VehiclesRepositoy>();
             return services;
         }
     }

@@ -17,8 +17,7 @@ namespace FoodDeliveryTracking.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime", nullable: false),
                     Latitude = table.Column<decimal>(type: "decimal(10,7)", precision: 10, scale: 7, nullable: false),
-                    Longitude = table.Column<decimal>(type: "decimal(10,7)", precision: 10, scale: 7, nullable: false),
-                    ClVehicleId = table.Column<int>(type: "int", nullable: true)
+                    Longitude = table.Column<decimal>(type: "decimal(10,7)", precision: 10, scale: 7, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,17 +53,11 @@ namespace FoodDeliveryTracking.Migrations
                     Date = table.Column<DateTime>(type: "datetime", nullable: false),
                     Latitude = table.Column<decimal>(type: "decimal(10,7)", precision: 10, scale: 7, nullable: false),
                     Longitude = table.Column<decimal>(type: "decimal(10,7)", precision: 10, scale: 7, nullable: false),
-                    LhVehicleId = table.Column<int>(type: "int", nullable: true),
                     VehicleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LocationsHistory", x => x.LocationHistoryId);
-                    table.ForeignKey(
-                        name: "FK_LocationsHistory_Vehicles_LhVehicleId",
-                        column: x => x.LhVehicleId,
-                        principalTable: "Vehicles",
-                        principalColumn: "VehicleId");
                     table.ForeignKey(
                         name: "FK_LocationsHistory_Vehicles_VehicleId",
                         column: x => x.VehicleId,
@@ -92,17 +85,39 @@ namespace FoodDeliveryTracking.Migrations
                         principalColumn: "VehicleId");
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CurrentLocations_ClVehicleId",
+            migrationBuilder.InsertData(
                 table: "CurrentLocations",
-                column: "ClVehicleId",
-                unique: true,
-                filter: "[ClVehicleId] IS NOT NULL");
+                columns: new[] { "CurrentLocationId", "Date", "Latitude", "Longitude" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3216), 40.4189m, -3.6919m },
+                    { 2, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3265), 40.4193m, -3.6905m },
+                    { 3, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3270), 40.4176m, -3.6890m },
+                    { 4, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3273), 40.4172m, -3.6883m },
+                    { 5, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3277), 40.4163m, -3.6871m },
+                    { 6, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3281), 40.4158m, -3.6862m },
+                    { 7, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3285), 40.4151m, -3.6854m },
+                    { 8, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3289), 40.4146m, -3.6847m },
+                    { 9, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3292), 40.4139m, -3.6838m },
+                    { 10, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3296), 40.4133m, -3.6827m }
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_LocationsHistory_LhVehicleId",
-                table: "LocationsHistory",
-                column: "LhVehicleId");
+            migrationBuilder.InsertData(
+                table: "Vehicles",
+                columns: new[] { "VehicleId", "CurrentLocationId", "Plate" },
+                values: new object[,]
+                {
+                    { 1, 1, "AB123CD" },
+                    { 2, 2, "XY456ZW" },
+                    { 3, 3, "FG789HI" },
+                    { 4, 4, "JK012LM" },
+                    { 5, 5, "NO345PQ" },
+                    { 6, 6, "RS678TU" },
+                    { 7, 7, "VW901YZ" },
+                    { 8, 8, "BC234EF" },
+                    { 9, 9, "GH567IJ" },
+                    { 10, 10, "KL890MN" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocationsHistory_VehicleId",
@@ -119,21 +134,10 @@ namespace FoodDeliveryTracking.Migrations
                 table: "Vehicles",
                 column: "CurrentLocationId",
                 unique: true);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CurrentLocations_Vehicles_ClVehicleId",
-                table: "CurrentLocations",
-                column: "ClVehicleId",
-                principalTable: "Vehicles",
-                principalColumn: "VehicleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_CurrentLocations_Vehicles_ClVehicleId",
-                table: "CurrentLocations");
-
             migrationBuilder.DropTable(
                 name: "LocationsHistory");
 

@@ -73,13 +73,11 @@ namespace FoodDeliveryTracking.Data.Models
 
             modelBuilder.Entity<Vehicle>()
                 .HasOne(o => o.CurrentLocation)
-                .WithOne()
-                .HasForeignKey<CurrentLocation>(v => v.ClVehicleId);
+                .WithOne();
 
             modelBuilder.Entity<Vehicle>()
-                .HasMany(o => o.LocationHistory)
-                .WithOne()
-                .HasForeignKey(v => v.LhVehicleId);
+                .HasMany(lh => lh.LocationHistory)
+                .WithOne();
         }
     }
 }
