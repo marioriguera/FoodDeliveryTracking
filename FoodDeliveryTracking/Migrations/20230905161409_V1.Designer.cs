@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDeliveryTracking.Migrations
 {
     [DbContext(typeof(ApplicationDC))]
-    [Migration("20230905102746_V1")]
+    [Migration("20230905161409_V1")]
     partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,70 +59,70 @@ namespace FoodDeliveryTracking.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3216),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1367),
                             Latitude = 40.4189m,
                             Longitude = -3.6919m
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3265),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1400),
                             Latitude = 40.4193m,
                             Longitude = -3.6905m
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3270),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1402),
                             Latitude = 40.4176m,
                             Longitude = -3.6890m
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3273),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1405),
                             Latitude = 40.4172m,
                             Longitude = -3.6883m
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3277),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1407),
                             Latitude = 40.4163m,
                             Longitude = -3.6871m
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3281),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1410),
                             Latitude = 40.4158m,
                             Longitude = -3.6862m
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3285),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1412),
                             Latitude = 40.4151m,
                             Longitude = -3.6854m
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3289),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1415),
                             Latitude = 40.4146m,
                             Longitude = -3.6847m
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3292),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1417),
                             Latitude = 40.4139m,
                             Longitude = -3.6838m
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3296),
+                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1419),
                             Latitude = 40.4133m,
                             Longitude = -3.6827m
                         });
@@ -292,35 +292,35 @@ namespace FoodDeliveryTracking.Migrations
             modelBuilder.Entity("FoodDeliveryTracking.Data.Models.LocationHistory", b =>
                 {
                     b.HasOne("FoodDeliveryTracking.Data.Models.Vehicle", null)
-                        .WithMany("LocationHistory")
+                        .WithMany("LocationHistoryCollection")
                         .HasForeignKey("VehicleId");
                 });
 
             modelBuilder.Entity("FoodDeliveryTracking.Data.Models.Order", b =>
                 {
-                    b.HasOne("FoodDeliveryTracking.Data.Models.Vehicle", "AssignedVehicle")
-                        .WithMany("Orders")
+                    b.HasOne("FoodDeliveryTracking.Data.Models.Vehicle", "AssignedVehicleObject")
+                        .WithMany("OrdersCollection")
                         .HasForeignKey("AssignedVehicleId");
 
-                    b.Navigation("AssignedVehicle");
+                    b.Navigation("AssignedVehicleObject");
                 });
 
             modelBuilder.Entity("FoodDeliveryTracking.Data.Models.Vehicle", b =>
                 {
-                    b.HasOne("FoodDeliveryTracking.Data.Models.CurrentLocation", "CurrentLocation")
+                    b.HasOne("FoodDeliveryTracking.Data.Models.CurrentLocation", "CurrentLocationObject")
                         .WithOne()
                         .HasForeignKey("FoodDeliveryTracking.Data.Models.Vehicle", "CurrentLocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CurrentLocation");
+                    b.Navigation("CurrentLocationObject");
                 });
 
             modelBuilder.Entity("FoodDeliveryTracking.Data.Models.Vehicle", b =>
                 {
-                    b.Navigation("LocationHistory");
+                    b.Navigation("LocationHistoryCollection");
 
-                    b.Navigation("Orders");
+                    b.Navigation("OrdersCollection");
                 });
 #pragma warning restore 612, 618
         }

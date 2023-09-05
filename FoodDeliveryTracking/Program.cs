@@ -3,7 +3,6 @@ using FoodDeliveryTracking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NLog;
-using System;
 
 namespace FoodDeliveryTracking
 {

@@ -23,7 +23,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         /// <inheritdoc />
         public async Task<ICollection<Vehicle>> GetAllAsync()
         {
-            var vehicles = _context.Vehicles.AsQueryable().Include(x => x.CurrentLocation);
+            var vehicles = _context.Vehicles.AsQueryable().Include(x => x.CurrentLocationObject);
             return await vehicles.ToListAsync();
         }
     }

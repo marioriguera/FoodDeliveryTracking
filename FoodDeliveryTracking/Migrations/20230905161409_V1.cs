@@ -90,16 +90,16 @@ namespace FoodDeliveryTracking.Migrations
                 columns: new[] { "CurrentLocationId", "Date", "Latitude", "Longitude" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3216), 40.4189m, -3.6919m },
-                    { 2, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3265), 40.4193m, -3.6905m },
-                    { 3, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3270), 40.4176m, -3.6890m },
-                    { 4, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3273), 40.4172m, -3.6883m },
-                    { 5, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3277), 40.4163m, -3.6871m },
-                    { 6, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3281), 40.4158m, -3.6862m },
-                    { 7, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3285), 40.4151m, -3.6854m },
-                    { 8, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3289), 40.4146m, -3.6847m },
-                    { 9, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3292), 40.4139m, -3.6838m },
-                    { 10, new DateTime(2023, 9, 5, 12, 27, 46, 467, DateTimeKind.Local).AddTicks(3296), 40.4133m, -3.6827m }
+                    { 1, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1367), 40.4189m, -3.6919m },
+                    { 2, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1400), 40.4193m, -3.6905m },
+                    { 3, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1402), 40.4176m, -3.6890m },
+                    { 4, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1405), 40.4172m, -3.6883m },
+                    { 5, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1407), 40.4163m, -3.6871m },
+                    { 6, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1410), 40.4158m, -3.6862m },
+                    { 7, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1412), 40.4151m, -3.6854m },
+                    { 8, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1415), 40.4146m, -3.6847m },
+                    { 9, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1417), 40.4139m, -3.6838m },
+                    { 10, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1419), 40.4133m, -3.6827m }
                 });
 
             migrationBuilder.InsertData(

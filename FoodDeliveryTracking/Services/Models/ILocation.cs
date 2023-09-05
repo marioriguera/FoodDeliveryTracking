@@ -1,17 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace FoodDeliveryTracking.Data.Models
+﻿namespace FoodDeliveryTracking.Services.Models
 {
-    /// <summary>
-    /// Represents a location with latitude and longitude coordinates at a specific date and time.
-    /// </summary>
-    public abstract class Location
+    public interface ILocation
     {
-        /// <summary>
-        /// Gets or sets the unique identifier of the location.
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the date and time when the location was recorded.
         /// </summary>

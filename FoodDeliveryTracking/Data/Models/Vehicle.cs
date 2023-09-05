@@ -1,41 +1,55 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FoodDeliveryTracking.Services.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryTracking.Data.Models
 {
     /// <summary>
     /// Represents a vehicle entity.
     /// </summary>
-    public class Vehicle
+    public class Vehicle : IVehicle
     {
+        /// <summary>
+        /// Initialize a new empty instace of <see cref="Vehicle"/> class.
+        /// </summary>
+        public Vehicle() { }
+
+        /// <summary>
+        /// Initialize a new instance of <see cref="Vehicle"/> class.
+        /// </summary>
+        /// <param name="vehicle">Vehicle contract.</param>
+        public Vehicle(IVehicle vehicle)
+        {
+            Plate = vehicle.Plate;
+            Orders.Clear();
+            Orders.Concat(vehicle.Orders);
+            LocationHistory.Clear();
+            LocationHistory.Concat(vehicle.LocationHistory);
+            CurrentLocationId = vehicle.CurrentLocationId;
+            CurrentLocationObject = (CurrentLocation)vehicle.CurrentLocation;
+        }
+
         /// <summary>
         /// Gets or sets the unique identifier for the vehicle.
         /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the license plate of the vehicle.
-        /// </summary>
+        /// <inheritdoc />
         public string Plate { get; set; }
 
-        /// <summary>
-        /// Gets or sets a collection of orders associated with the vehicle.
-        /// </summary>
-        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+        /// <inheritdoc />
+        public virtual ICollection<IOrder> Orders => OrdersCollection?.Cast<IOrder>()?.ToList();
+        public virtual ICollection<Order> OrdersCollection { get; set; } = new HashSet<Order>();
 
-        /// <summary>
-        /// Gets or sets a collection of location history records for the vehicle.
-        /// </summary>
-        public virtual ICollection<LocationHistory> LocationHistory { get; set; } = new HashSet<LocationHistory>();
+        /// <inheritdoc />
+        public virtual ICollection<ILocation> LocationHistory => LocationHistoryCollection?.Cast<ILocation>()?.ToList();
+        public virtual ICollection<LocationHistory> LocationHistoryCollection { get; set; } = new HashSet<LocationHistory>();
 
-        /// <summary>
-        /// Gets or sets the unique identifier of the vehicle's current location.
-        /// </summary>
+        /// <inheritdoc />
         public int CurrentLocationId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the current location of the vehicle.
-        /// </summary>
-        public virtual CurrentLocation CurrentLocation { get; set; }
+        /// <inheritdoc />
+        public virtual ILocation CurrentLocation => CurrentLocationObject;
+        public virtual CurrentLocation CurrentLocationObject { get; set; }
 
         /// <summary>
         /// Configures the entity mapping for the 'Vehicle' model, specifying the table name as 'Vehicles'.
@@ -60,8 +74,8 @@ namespace FoodDeliveryTracking.Data.Models
                 .IsRequired();
 
             modelBuilder.Entity<Vehicle>()
-                .HasMany(o => o.Orders)
-                .WithOne(v => v.AssignedVehicle)
+                .HasMany(o => o.OrdersCollection)
+                .WithOne(v => v.AssignedVehicleObject)
                 .HasForeignKey(v => v.AssignedVehicleId);
 
             modelBuilder.Entity<Vehicle>()
@@ -72,11 +86,11 @@ namespace FoodDeliveryTracking.Data.Models
                 .IsRequired();
 
             modelBuilder.Entity<Vehicle>()
-                .HasOne(o => o.CurrentLocation)
+                .HasOne(o => o.CurrentLocationObject)
                 .WithOne();
 
             modelBuilder.Entity<Vehicle>()
-                .HasMany(lh => lh.LocationHistory)
+                .HasMany(lh => lh.LocationHistoryCollection)
                 .WithOne();
         }
     }

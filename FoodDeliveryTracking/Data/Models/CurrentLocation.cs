@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FoodDeliveryTracking.Services.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryTracking.Data.Models
 {
@@ -6,8 +7,38 @@ namespace FoodDeliveryTracking.Data.Models
     /// Represents a current location with latitude and longitude coordinates at a specific date and time.
     /// This class inherits from the base class 'Location'.
     /// </summary>
-    public class CurrentLocation : Location
+    public class CurrentLocation : ILocation
     {
+        /// <summary>
+        /// Initialize a new empty instance of <see cref="CurrentLocation"/> class.
+        /// </summary>
+        public CurrentLocation() { }
+
+        /// <summary>
+        /// Initialize a new instance of <see cref="CurrentLocation"/> class.
+        /// </summary>
+        /// <param name="location">Location contract.</param>
+        public CurrentLocation(ILocation location)
+        {
+            Date = DateTime.Now;
+            Latitude = location.Latitude;
+            Longitude = location.Longitude;
+        }
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the location.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <inheritdoc />
+        public DateTime Date { get; set; }
+
+        /// <inheritdoc />
+        public decimal Latitude { get; set; }
+
+        /// <inheritdoc />
+        public decimal Longitude { get; set; }
+
         /// <summary>
         /// Configures the entity mapping for the 'CurrentLocation' model, specifying the table name as 'CurrentLocations'.
         /// </summary>
