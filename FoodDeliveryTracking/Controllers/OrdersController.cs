@@ -2,6 +2,7 @@
 using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
+using FoodDeliveryTracking.Services.Logger;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryTracking.Controllers
@@ -14,15 +15,17 @@ namespace FoodDeliveryTracking.Controllers
     public class OrdersController : Controller
     {
         private readonly IOrdersRepository _ordersRepository;
+        private readonly ILoggerManager _logger;
 
         /// <summary>
         /// Initialize a new instance of <see cref="OrdersController"/> class.
         /// </summary>
         /// <param name="loggerManager"></param>
         /// <param name="ordersRepository"></param>
-        public OrdersController( IOrdersRepository ordersRepository)
+        public OrdersController( IOrdersRepository ordersRepository,ILoggerManager loggerManager)
         {
             _ordersRepository = ordersRepository;
+            _logger = loggerManager;
         }
 
         /// <summary>
@@ -42,6 +45,7 @@ namespace FoodDeliveryTracking.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unhandled error when trying to save a new order. Message: {ex.Message}");                
                 return BadRequest(MessageResponse<String>.Fail($"No se ha podido guardar el pedido."));
             }
         }
@@ -57,6 +61,7 @@ namespace FoodDeliveryTracking.Controllers
             var result = await _ordersRepository.DeleteOrderAsync(id);
             if (!result)
             {
+                _logger.LogInfo("Order not found.");                
                 return NotFound(MessageResponse<String>.Success("Order not found."));
             }
 
@@ -77,6 +82,7 @@ namespace FoodDeliveryTracking.Controllers
             {
                 return Ok(MessageResponse<String>.Success("Vehicle assigned to order successfully." ));
             }
+            _logger.LogInfo("Order not found."); 
             return NotFound(MessageResponse<String>.Success("Order not found or failed to assign vehicle."));
         }
 
@@ -86,17 +92,17 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="orderId">The ID of the order.</param>
         /// <returns>An IActionResult with the order and vehicle location or an error message.</returns>
         [HttpGet("{orderId}/location")]
-        public async Task<IActionResult> GetOrderAndVehicleLocation(int orderId)
+        public async Task<IActionResult> GetVehicleLocation(int orderId)
         {
-            var (order, vehicleLocation) = await _ordersRepository.GetOrderAndVehicleLocationAsync(orderId);
-            if (order == null || vehicleLocation == null)
+            var  vehicleLocation = await _ordersRepository.GetVehicleLocationAsync(orderId);
+            if (vehicleLocation == null)
             {
+                _logger.LogInfo("Order not found."); 
                 return NotFound(MessageResponse<String>.Success("Order or vehicle not found." ));
             }
 
             return Ok(new
             {
-                Order = order,
                 VehicleLocation = vehicleLocation
             });
         }

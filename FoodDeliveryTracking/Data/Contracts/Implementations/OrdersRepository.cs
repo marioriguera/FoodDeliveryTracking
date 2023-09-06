@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryTracking.Data.Context;
 using FoodDeliveryTracking.Data.Models;
+using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,8 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
     /// </summary>
     public class OrdersRepository : IOrdersRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDC _context;
+        private readonly ILoggerManager _logger;
         
 
         /// <summary>
@@ -18,49 +20,42 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         /// </summary>
         /// <param name="context">The database context.</param>
         /// <param name="logger">The logger for tracing.</param>
-        public OrdersRepository(AppDbContext context)
+        public OrdersRepository(ApplicationDC context, ILoggerManager logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        /// <summary>
-        /// Asynchronously creates and saves a new order to the database.
-        /// </summary>
-        /// <param name="order">The order object implementing the IOrder interface.</param>
-        /// <returns>True if the order is successfully saved; otherwise, false.</returns>
+        /// <inheritdoc />
         public async Task<bool> CreateOrderAsync(IOrder order)
         {
+            _logger.LogTrace($"Attempting to save {order}");
             Order orderEF = new Order(order);
             await _context.Orders.AddAsync(orderEF);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        /// <summary>
-        /// Asynchronously dalete an order by orderId to the database.
-        /// </summary>
-        /// <param name="orderId">The orderId is a Order key.</param>
-        /// <returns>True if the order is successfully deleted; otherwise, false.</returns>
+        /// <inheritdoc />
         public async Task<bool> DeleteOrderAsync(int orderId)
         {
+            _logger.LogTrace($"Attempting to delete {orderId}");
             var order = await _context.Orders.FindAsync(orderId);
             if (order == null)
             {
+                _logger.LogTrace($"Order dest'nt exits {orderId}");
                 return false;
             }
 
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
+             _logger.LogTrace($"Delete was successful {orderId}");
             return true;
         }
-        /// <summary>
-        /// Assigns a vehicle to an order.
-        /// </summary>
-        /// <param name="orderId">The ID of the order.</param>
-        /// <param name="vehicleId">The ID of the vehicle.</param>
-        /// <returns>True if the operation was successful; otherwise, false.</returns>
+        /// <inheritdoc />
         public async Task<bool> AssignVehicleToOrderAsync(int orderId, int vehicleId)
         {
+            _logger.LogTrace($"Attempting to Assign a vehicle to order:  {orderId}");
             var order = await _context.Orders.FindAsync(orderId);
             if (order == null) return false;
 
@@ -68,23 +63,20 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             return await _context.SaveChangesAsync() > 0;
         }
 
-        /// <summary>
-        /// Gets the vehicle's location based on the order ID.
-        /// </summary>
-        /// <param name="orderId">The ID of the order.</param>
-        /// <returns>An object containing the order and vehicle location or null if not found.</returns>
-        public async Task<(Order order, ILocation location)> GetOrderAndVehicleLocationAsync(int orderId)
+        /// <inheritdoc />
+        public async Task<ILocation> GetVehicleLocationAsync(int orderId)
         {
+            _logger.LogTrace($"Attempting to Assign a vehicle to order {orderId}");
             var order = await _context.Orders
                                       .Include(o => o.AssignedVehicleObject)                                      
                                       .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order?.AssignedVehicle == null)
             {
-                return (null, null);
+                return null;
             }
 
-            return (order, order.AssignedVehicleObject.CurrentLocation);
+            return order.AssignedVehicleObject.CurrentLocation;
         }
     }
 }

@@ -32,10 +32,10 @@ namespace FoodDeliveryTracking.Data.Contracts
         public Task<bool> AssignVehicleToOrderAsync(int orderId, int vehicleId);
 
         /// <summary>
-        /// Retrive the order ans the current location.
+        /// Retrieve the order ans the current location.
         /// </summary>
         /// <param name="orderId">The orderId to be search.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task<(Order order, ILocation location)> GetOrderAndVehicleLocationAsync(int orderId);
+        public Task<ILocation> GetVehicleLocationAsync(int orderId);
     }
 }

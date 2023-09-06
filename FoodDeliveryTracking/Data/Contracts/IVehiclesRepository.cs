@@ -13,8 +13,26 @@ namespace FoodDeliveryTracking.Data.Contracts
         /// </summary>
         /// <returns>A task that represents the asynchronous operation and contains a collection of vehicles.</returns>
         Task<ICollection<IVehicle>> GetAllAsync();
+        /// <summary>
+        /// Inserts a new vehicle into the database.
+        /// </summary>
+        /// <param name="vehicle">The vehicle object to insert.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         Task<bool> InsertVehicleAsync(IVehicle vehicle);
-        Task<bool> UpdateVehicleLocationAsync(int vehicleId, CurrentLocation newLocation);  
+
+        /// <summary>
+        /// Updates the location of a specific vehicle.
+        /// </summary>
+        /// <param name="vehicleId">The ID of the vehicle.</param>
+        /// <param name="newLocation">The new location to set.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
+        Task<bool> UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation); 
+
+        /// <summary>
+        /// Retrieves the location of a specific vehicle.
+        /// </summary>
+        /// <param name="vehicleId">The ID of the vehicle.</param>
+        /// <returns>The location of the vehicle if found; otherwise, null.</returns> 
         Task<ILocation> GetVehicleLocationAsync(int vehicleId);
     }
 }

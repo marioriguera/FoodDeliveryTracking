@@ -2,7 +2,7 @@
 using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
-
+using FoodDeliveryTracking.Services.Logger;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -12,14 +12,16 @@ namespace FoodDeliveryTracking.Controllers
     [Route("api/vehicles")]
     public class VehiclesController : Controller
     {
+        private readonly ILoggerManager _logger;
         private readonly IVehiclesRepository _vehiclesRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VehiclesController"/> class.
         /// </summary>
         /// <param name="vehiclesRepository">The repository for retrieving information about vehicles.</param>
-        public VehiclesController(IVehiclesRepository vehiclesRepository)
+        public VehiclesController(ILoggerManager logger, IVehiclesRepository vehiclesRepository)
         {
+             _logger = logger;
             _vehiclesRepository = vehiclesRepository;
         }
 
@@ -47,8 +49,7 @@ namespace FoodDeliveryTracking.Controllers
             }
             catch (Exception ex)
             {
-                //ToDo: Implementar el logger
-               
+                _logger.LogError($"Unhandled error when trying to request AllVehicle. Message: {ex.Message}");                
                 return BadRequest(MessageResponse<String>.Fail("No se pudo obtener el listado de vehiculos."));
             }
         }
