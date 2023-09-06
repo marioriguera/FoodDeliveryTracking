@@ -94,7 +94,7 @@ namespace FoodDeliveryTracking.Controllers
                     return Ok(MessageResponse<String>.Success("Vehicle assigned to order successfully."));
                 }
                 _logger.LogInfo($"Order not found with id {orderId} and vehicle id {vehicleId}.");
-                return NotFound(MessageResponse<String>.Success("Order not found or failed to assign vehicle."));
+                return NotFound(MessageResponse<String>.Fail("Order not found or failed to assign vehicle."));
             }
             catch (Exception ex)
             {

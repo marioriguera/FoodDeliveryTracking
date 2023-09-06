@@ -59,7 +59,10 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             var order = await _context.Orders.AsQueryable().Where(x => x.Id.Equals(orderId)).FirstOrDefaultAsync();
             if (order == null) return false;
 
-            order.AssignedVehicleId = vehicleId;
+            var vehicle = await _context.Vehicles.AsQueryable().Where(x => x.Id.Equals(vehicleId)).FirstOrDefaultAsync();
+            if (vehicle == null) return false;
+
+            order.AssignedVehicleObject = vehicle;
             // When assigning an order to a vehicle, I consider that the order changes status.
             order.Status = OrderStatus.InTransit;
 
