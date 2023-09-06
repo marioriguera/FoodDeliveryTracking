@@ -25,7 +25,7 @@ namespace FoodDeliveryTracking.Data.Models
             LocationHistory.Clear();
             LocationHistory.Concat(vehicle.LocationHistory);
             CurrentLocationId = vehicle.CurrentLocationId;
-            CurrentLocationObject = (CurrentLocation)vehicle.CurrentLocation;
+            CurrentLocationObject = new CurrentLocation(vehicle.CurrentLocation);
         }
 
         /// <summary>

@@ -26,27 +26,22 @@ namespace FoodDeliveryTracking.Models.Response
             Status = order.Status;
         }
 
-        /// <summary>
-        /// Gets or sets the description of the order.
-        /// </summary>
+        /// <inheritdoc />
+        public int Id { get; set; }
+
+        /// <inheritdoc />
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the id vehicle.
-        /// </summary>
+        /// <inheritdoc />
         public int? AssignedVehicleId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the vehicle assigned to fulfill the order.
-        /// </summary>
+        /// <inheritdoc />
         [JsonIgnore]
         public IVehicle? AssignedVehicle => AssignedVehicleObject;
         [JsonPropertyName("vehicle")]
         public VehicleResponse? AssignedVehicleObject { get; set; }
 
-        /// <summary>
-        /// Gets or sets the status of the order.
-        /// </summary>
+        /// <inheritdoc />
         public OrderStatus Status { get; set; }
     }
 }

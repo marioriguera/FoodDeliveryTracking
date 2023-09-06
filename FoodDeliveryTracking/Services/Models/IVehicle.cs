@@ -1,6 +1,4 @@
-﻿using FoodDeliveryTracking.Data.Models;
-
-namespace FoodDeliveryTracking.Services.Models
+﻿namespace FoodDeliveryTracking.Services.Models
 {
     public interface IVehicle
     {

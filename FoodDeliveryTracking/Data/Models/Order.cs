@@ -51,9 +51,7 @@ namespace FoodDeliveryTracking.Data.Models
             Status = order.Status;
         }
 
-        /// <summary>
-        /// Gets or sets the unique identifier of the order.
-        /// </summary>
+        /// <inheritdoc />
         public int Id { get; set; }
 
         /// <inheritdoc />

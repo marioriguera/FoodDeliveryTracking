@@ -5,6 +5,11 @@ namespace FoodDeliveryTracking.Services.Models
     public interface IOrder
     {
         /// <summary>
+        /// Gets or sets the unique identifier of the order.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the description of the order.
         /// </summary>
         public string Description { get; set; }

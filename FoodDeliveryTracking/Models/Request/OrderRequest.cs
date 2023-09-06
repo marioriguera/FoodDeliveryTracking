@@ -10,6 +10,9 @@ namespace FoodDeliveryTracking.Models.Request
     public class OrderRequest : IOrder
     {
         /// <inheritdoc />
+        public int Id { get; set; }
+
+        /// <inheritdoc />
         public string Description { get; set; }
         /// <inheritdoc />
         public int? AssignedVehicleId { get; set; }

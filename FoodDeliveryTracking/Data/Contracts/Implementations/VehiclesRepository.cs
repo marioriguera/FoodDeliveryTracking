@@ -11,23 +11,23 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
     /// </summary>
     public class VehiclesRepository : IVehiclesRepository
     {
-        private readonly ApplicationDC _context;
         private readonly ILoggerManager _logger;
+        private readonly ApplicationDC _context;
 
         /// <summary>
         /// Initialize a new instance of <see cref="VehiclesRepository"/> class.
         /// </summary>
         /// <param name="context">The database context for accessing vehicle data.</param>
-        public VehiclesRepository(ApplicationDC context, ILoggerManager logger)
+        public VehiclesRepository(ILoggerManager logger, ApplicationDC context)
         {
-            _context = context;
             _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<ICollection<IVehicle>> GetAllAsync()
         {
-            _logger.LogTrace("Attempting to get al vehicles");
+            _logger.LogTrace("Attempting to get all vehicles");
             var vehicles = _context.Vehicles.AsQueryable().Include(x => x.CurrentLocationObject);
             ICollection<IVehicle> ivehicles = await vehicles.Cast<IVehicle>().ToListAsync();
             return ivehicles;
@@ -50,15 +50,12 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
                                              .FirstOrDefaultAsync(v => v.Id == vehicleId);
 
             if (vehicle == null) return false;
-
             // Add the current location to the history before updating
-            if (vehicle.CurrentLocation != null)
-            {
-                vehicle.LocationHistory.Add(vehicle.CurrentLocation);
-            }
+            if (vehicle.CurrentLocation == null) return false;
 
+            vehicle.LocationHistory.Add(vehicle.CurrentLocation);
             // Now update the current location
-            vehicle.CurrentLocationObject = (CurrentLocation)newLocation;
+            vehicle.CurrentLocationObject = new CurrentLocation(newLocation);
 
             return await _context.SaveChangesAsync() > 0;
         }

@@ -25,9 +25,7 @@ namespace FoodDeliveryTracking.Data.Models
             Longitude = location.Longitude;
         }
 
-        /// <summary>
-        /// Gets or sets the unique identifier of the location.
-        /// </summary>
+        /// <inheritdoc />
         public int Id { get; set; }
 
         /// <inheritdoc />
