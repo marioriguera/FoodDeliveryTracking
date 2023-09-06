@@ -2,7 +2,6 @@
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
-using FoodDeliveryTracking.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryTracking.Controllers
