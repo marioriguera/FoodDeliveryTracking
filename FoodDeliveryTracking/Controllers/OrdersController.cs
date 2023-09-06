@@ -29,13 +29,13 @@ namespace FoodDeliveryTracking.Controllers
         }
 
         /// <summary>
-        /// Adds a new order to the system.
+        /// Insert a new order to the system.
         /// </summary>
         /// <param name="newOrder">The order details to be added.</param>
         /// <returns>A message response indicating the result of the operation.</returns>
         [HttpPost]
-        [Route("add")]
-        public async Task<IActionResult> AddOrder([FromBody] OrderRequest newOrder)
+        [Route("insert")]
+        public async Task<IActionResult> InsertOrder([FromBody] AddOrderRequest newOrder)
         {
             try
             {

@@ -13,7 +13,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
     {
         private readonly ApplicationDC _context;
         private readonly ILoggerManager _logger;
-        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdersRepository"/> class.
@@ -32,8 +32,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             _logger.LogTrace($"Attempting to save {order}");
             Order orderEF = new Order(order);
             await _context.Orders.AddAsync(orderEF);
-            await _context.SaveChangesAsync();
-            return true;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />
@@ -49,7 +48,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
 
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
-             _logger.LogTrace($"Delete was successful {orderId}");
+            _logger.LogTrace($"Delete was successful {orderId}");
             return true;
         }
         /// <inheritdoc />
@@ -68,7 +67,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         {
             _logger.LogTrace($"Attempting to Assign a vehicle to order {orderId}");
             var order = await _context.Orders
-                                      .Include(o => o.AssignedVehicleObject)                                      
+                                      .Include(o => o.AssignedVehicleObject)
                                       .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order?.AssignedVehicle == null)

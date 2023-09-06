@@ -7,20 +7,26 @@ namespace FoodDeliveryTracking.Models.Request
     /// <summary>
     /// Represents an order request that implements the <see cref="IOrder"/> interface.
     /// </summary>
-    public class OrderRequest : IOrder
+    public class AddOrderRequest : IOrder
     {
         /// <inheritdoc />
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <inheritdoc />
         public string Description { get; set; }
+
         /// <inheritdoc />
+        [JsonIgnore]
         public int? AssignedVehicleId { get; set; }
+
         /// <inheritdoc />
         [JsonIgnore]
         public IVehicle AssignedVehicle { get; set; }
+
         /// <inheritdoc />
-        public OrderStatus Status { get; set; }
+        [JsonIgnore]
+        public OrderStatus Status { get; set; } = OrderStatus.Placed;
     }
 
 

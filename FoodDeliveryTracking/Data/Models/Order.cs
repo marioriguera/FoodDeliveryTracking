@@ -47,7 +47,7 @@ namespace FoodDeliveryTracking.Data.Models
         {
             Description = order.Description;
             AssignedVehicleId = order.AssignedVehicleId;
-            AssignedVehicleObject = (Vehicle)order.AssignedVehicle;
+            if (order.AssignedVehicle != null) AssignedVehicleObject = new Vehicle(order.AssignedVehicle);
             Status = order.Status;
         }
 
