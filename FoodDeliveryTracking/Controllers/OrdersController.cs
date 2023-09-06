@@ -55,7 +55,8 @@ namespace FoodDeliveryTracking.Controllers
         /// </summary>
         /// <param name="id">The ID of the order to be deleted.</param>
         /// <returns>An IActionResult indicating the result of the delete operation.</returns>
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("delete/{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             try
