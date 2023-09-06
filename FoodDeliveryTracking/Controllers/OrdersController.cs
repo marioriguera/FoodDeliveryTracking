@@ -98,7 +98,7 @@ namespace FoodDeliveryTracking.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unhandled error when trying to save a new order. Message: {ex.Message}");
+                _logger.LogError($"Unhandled error when trying to assign a order to a vehicle. Message: {ex.Message}");
                 return BadRequest(MessageResponse<String>.Fail($"The order could not be saved."));
             }
         }
@@ -109,23 +109,23 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="orderId">The ID of the order.</param>
         /// <returns>An IActionResult with the order and vehicle location or an error message.</returns>
         [HttpGet("{orderId}/location")]
-        public async Task<IActionResult> GetVehicleLocation(int orderId)
+        public async Task<IActionResult> GetOrderLocation(int orderId)
         {
             try
             {
-                var vehicleLocation = await _ordersRepository.GetVehicleLocationAsync(orderId);
+                var vehicleLocation = await _ordersRepository.GetOrderLocationAsync(orderId);
                 if (vehicleLocation == null)
                 {
-                    _logger.LogInfo("Order not found.");
-                    return NotFound(MessageResponse<String>.Success("Order or vehicle not found."));
+                    _logger.LogInfo("Order is on placed.");
+                    return Ok(MessageResponse<String>.Success("Order is on placed."));
                 }
-
-                return Ok(MessageResponse<ILocation>.Success(vehicleLocation));
+                LocationOrderResponse orderLocation = new LocationOrderResponse(vehicleLocation);
+                return Ok(MessageResponse<LocationOrderResponse>.Success(orderLocation));
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unhandled error when trying to save a new order. Message: {ex.Message}");
-                return BadRequest(MessageResponse<String>.Fail($"The order could not be saved."));
+                _logger.LogError($"Unhandled error when trying to get order localitation. Message: {ex.Message}");
+                return BadRequest(MessageResponse<String>.Fail($"The order was not found in the database."));
             }
         }
     }

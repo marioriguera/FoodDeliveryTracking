@@ -63,24 +63,23 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             if (vehicle == null) return false;
 
             order.AssignedVehicleObject = vehicle;
-            // When assigning an order to a vehicle, I consider that the order changes status.
+            // When assigning an order to a vehicle, I consider that the order changes status to in transit.
             order.Status = OrderStatus.InTransit;
 
             return await _context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />
-        public async Task<ILocation> GetVehicleLocationAsync(int orderId)
+        public async Task<ILocation> GetOrderLocationAsync(int orderId)
         {
             _logger.LogTrace($"Attempting to Assign a vehicle to order {orderId}");
             var order = await _context.Orders.AsQueryable()
                                       .Include(o => o.AssignedVehicleObject)
+                                      .ThenInclude(o => o.CurrentLocationObject)
                                       .FirstOrDefaultAsync(o => o.Id == orderId);
 
-            if (order?.AssignedVehicle == null)
-            {
-                return null;
-            }
+            if (order == null) throw new NullReferenceException($"Order with id {orderId} it's not found in database.");
+            if (order!.AssignedVehicleObject == null) return null;
 
             return order.AssignedVehicleObject.CurrentLocation;
         }
