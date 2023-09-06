@@ -2,6 +2,7 @@
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryTracking.Controllers
@@ -33,6 +34,7 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="newOrder">The order details to be added.</param>
         /// <returns>A message response indicating the result of the operation.</returns>
         [HttpPost]
+        [Authorize]
         [Route("insert")]
         public async Task<IActionResult> InsertOrder([FromBody] AddOrderRequest newOrder)
         {
@@ -55,6 +57,7 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="id">The ID of the order to be deleted.</param>
         /// <returns>An IActionResult indicating the result of the delete operation.</returns>
         [HttpDelete]
+        [Authorize]
         [Route("delete/{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -82,7 +85,9 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="orderId">The ID of the order.</param>
         /// <param name="vehicleId">The ID of the vehicle to assign.</param>
         /// <returns>An IActionResult indicating the result of the assignment.</returns>
-        [HttpPut("{orderId}/assign-vehicle/{vehicleId}")]
+        [HttpPut]
+        [Authorize]
+        [Route("{orderId}/assign-vehicle/{vehicleId}")]
         public async Task<IActionResult> AssignVehicleToOrder(int orderId, int vehicleId)
         {
             try
@@ -107,7 +112,9 @@ namespace FoodDeliveryTracking.Controllers
         /// </summary>
         /// <param name="orderId">The ID of the order.</param>
         /// <returns>An IActionResult with the order and vehicle location or an error message.</returns>
-        [HttpGet("{orderId}/location")]
+        [HttpGet]
+        [Authorize]
+        [Route("{orderId}/location")]
         public async Task<IActionResult> GetOrderLocation(int orderId)
         {
             try

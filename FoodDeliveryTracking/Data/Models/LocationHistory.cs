@@ -41,7 +41,7 @@ namespace FoodDeliveryTracking.Data.Models
         /// Configures the entity mapping for the 'Order' model, specifying the table name as 'Orders'.
         /// </summary>
         /// <param name="modelBuilder">The ModelBuilder instance used to configure the entity mapping.</param>
-        public static void Configure_LocationHistory(ModelBuilder modelBuilder)
+        public static void Configure(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LocationHistory>().ToTable("LocationsHistory");
             modelBuilder.Entity<LocationHistory>().HasKey(lh => lh.Id);

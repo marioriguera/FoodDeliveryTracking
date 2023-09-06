@@ -3,6 +3,7 @@ using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryTracking.Controllers
@@ -58,7 +59,9 @@ namespace FoodDeliveryTracking.Controllers
         /// </summary>
         /// <param name="vehicle">The vehicle object to insert.</param>
         /// <returns>An IActionResult indicating the result of the insert operation.</returns>
-        [HttpPost("insert")]
+        [HttpPost]
+        [Authorize]
+        [Route("insert")]
         public async Task<IActionResult> InsertVehicleAsync([FromBody] AddVehicleRequest vehicle)
         {
             try
@@ -83,7 +86,9 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="vehicleId">The ID of the vehicle.</param>
         /// <param name="location">The new location object.</param>
         /// <returns>An IActionResult indicating the result of the update operation.</returns>
-        [HttpPut("update-location/{vehicleId}")]
+        [HttpPut]
+        [Authorize]
+        [Route("update-location/{vehicleId}")]
         public async Task<IActionResult> UpdateVehicleLocationAsync(int vehicleId, [FromBody] LocalitationRequest location)
         {
             try
@@ -106,8 +111,10 @@ namespace FoodDeliveryTracking.Controllers
         /// Retrieves the location of a specific vehicle.
         /// </summary>
         /// <param name="vehicleId">The ID of the vehicle.</param>
-        /// <returns>An IActionResult with the vehicle location or an error message.</returns>
-        [HttpGet("location/{vehicleId}")]
+        /// <returns>An IActionResult with the vehicle location or an error message.</returns>        
+        [HttpGet]
+        [Authorize]
+        [Route("location/{vehicleId}")]
         public async Task<IActionResult> GetVehicleLocationAsync(int vehicleId)
         {
             try

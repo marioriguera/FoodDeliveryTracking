@@ -25,6 +25,21 @@ namespace FoodDeliveryTracking.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    User = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(256)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.User);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Vehicles",
                 columns: table => new
                 {
@@ -90,17 +105,22 @@ namespace FoodDeliveryTracking.Migrations
                 columns: new[] { "CurrentLocationId", "Date", "Latitude", "Longitude" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4033), 40.4189m, -3.6919m },
-                    { 2, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4075), 40.4193m, -3.6905m },
-                    { 3, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4078), 40.4176m, -3.6890m },
-                    { 4, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4081), 40.4172m, -3.6883m },
-                    { 5, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4083), 40.4163m, -3.6871m },
-                    { 6, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4086), 40.4158m, -3.6862m },
-                    { 7, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4088), 40.4151m, -3.6854m },
-                    { 8, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4091), 40.4146m, -3.6847m },
-                    { 9, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4093), 40.4139m, -3.6838m },
-                    { 10, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4104), 40.4133m, -3.6827m }
+                    { 1, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5607), 40.4189m, -3.6919m },
+                    { 2, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5647), 40.4193m, -3.6905m },
+                    { 3, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5649), 40.4176m, -3.6890m },
+                    { 4, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5652), 40.4172m, -3.6883m },
+                    { 5, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5654), 40.4163m, -3.6871m },
+                    { 6, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5657), 40.4158m, -3.6862m },
+                    { 7, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5659), 40.4151m, -3.6854m },
+                    { 8, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5662), 40.4146m, -3.6847m },
+                    { 9, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5664), 40.4139m, -3.6838m },
+                    { 10, new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5667), 40.4133m, -3.6827m }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "User", "Name", "Password", "Token" },
+                values: new object[] { 1, "Administrator", "AdministratorPass", null });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
@@ -130,6 +150,12 @@ namespace FoodDeliveryTracking.Migrations
                 column: "AssignedVehicleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Name",
+                table: "Users",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_CurrentLocationId",
                 table: "Vehicles",
                 column: "CurrentLocationId",
@@ -149,6 +175,9 @@ namespace FoodDeliveryTracking.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

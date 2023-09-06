@@ -17,6 +17,7 @@ namespace FoodDeliveryTracking.Data.Register
         {
             services.AddScoped<IVehiclesRepository, VehiclesRepository>();
             services.AddScoped<IOrdersRepository, OrdersRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             return services;
         }
     }

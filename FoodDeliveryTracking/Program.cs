@@ -1,8 +1,11 @@
 using FoodDeliveryTracking.Config;
 using FoodDeliveryTracking.Data.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
+using System.Text;
 
 namespace FoodDeliveryTracking
 {
@@ -11,6 +14,11 @@ namespace FoodDeliveryTracking
     /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Gets or sets secret key.
+        /// </summary>
+        public static AppSettings? AppSettings { get; private set; } = new AppSettings();
+
         /// <summary>
         /// Main function.
         /// </summary>
@@ -28,6 +36,32 @@ namespace FoodDeliveryTracking
             {
                 //Apply configs
                 NlogConfigurator.ApplyConfigurationToLogs();
+
+                // JWT
+                // Identity Framework will be used in future projects.
+                var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+                builder.Services.Configure<AppSettings>(appSettingsSection);
+
+                var appSettings = appSettingsSection.Get<AppSettings>();
+                AppSettings.Secret = appSettings.Secret!;
+                var key = Encoding.ASCII.GetBytes(AppSettings.Secret);
+                builder.Services.AddAuthentication(d =>
+                {
+                    d.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    d.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                    .AddJwtBearer(d =>
+                    {
+                        d.RequireHttpsMetadata = false;
+                        d.SaveToken = true;
+                        d.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(key),
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+                        };
+                    });
 
                 // Data context configuration.
                 builder.Services.AddTransient<ApplicationDC>();
@@ -92,6 +126,7 @@ namespace FoodDeliveryTracking
 
                 app.UseHttpsRedirection();
 
+                app.UseAuthentication();
                 app.UseAuthorization();
 
                 app.MapControllers();

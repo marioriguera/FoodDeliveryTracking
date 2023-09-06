@@ -57,70 +57,70 @@ namespace FoodDeliveryTracking.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4033),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5607),
                             Latitude = 40.4189m,
                             Longitude = -3.6919m
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4075),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5647),
                             Latitude = 40.4193m,
                             Longitude = -3.6905m
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4078),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5649),
                             Latitude = 40.4176m,
                             Longitude = -3.6890m
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4081),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5652),
                             Latitude = 40.4172m,
                             Longitude = -3.6883m
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4083),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5654),
                             Latitude = 40.4163m,
                             Longitude = -3.6871m
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4086),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5657),
                             Latitude = 40.4158m,
                             Longitude = -3.6862m
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4088),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5659),
                             Latitude = 40.4151m,
                             Longitude = -3.6854m
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4091),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5662),
                             Latitude = 40.4146m,
                             Longitude = -3.6847m
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4093),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5664),
                             Latitude = 40.4139m,
                             Longitude = -3.6838m
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4104),
+                            Date = new DateTime(2023, 9, 6, 18, 45, 44, 643, DateTimeKind.Local).AddTicks(5667),
                             Latitude = 40.4133m,
                             Longitude = -3.6827m
                         });
@@ -194,6 +194,49 @@ namespace FoodDeliveryTracking.Migrations
                     b.HasIndex("AssignedVehicleId");
 
                     b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("FoodDeliveryTracking.Data.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("User")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Name")
+                        .HasColumnOrder(10);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Password")
+                        .HasColumnOrder(20);
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("Token")
+                        .HasColumnOrder(30);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Administrator",
+                            Password = "AdministratorPass"
+                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryTracking.Data.Models.Vehicle", b =>

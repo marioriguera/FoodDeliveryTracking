@@ -26,12 +26,14 @@ namespace FoodDeliveryTracking.Data.Context
             base.OnModelCreating(modelBuilder);
 
             CurrentLocation.Configure(modelBuilder);
-            LocationHistory.Configure_LocationHistory(modelBuilder);
+            LocationHistory.Configure(modelBuilder);
             Order.Configure(modelBuilder);
             Vehicle.Configure(modelBuilder);
+            User.Configure(modelBuilder);
 
             SeedLocations(modelBuilder);
             SeedVehicles(modelBuilder);
+            SeedUsers(modelBuilder);
         }
 
         /// <summary>
@@ -77,6 +79,18 @@ namespace FoodDeliveryTracking.Data.Context
         }
 
         /// <summary>
+        /// Seeds the database with users.
+        /// </summary>
+        /// <param name="modelBuilder">The ModelBuilder instance for configuring the database context.</param>
+        private void SeedUsers(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData
+                (
+                    new User() { Id = 1, Name = "Administrator", Password = "AdministratorPass" }
+                );
+        }
+
+        /// <summary>
         /// Gets or sets data base set currents locations.
         /// </summary>
         public DbSet<CurrentLocation> CurrentLocations { get; set; }
@@ -95,5 +109,10 @@ namespace FoodDeliveryTracking.Data.Context
         /// Gets or sets data base set vehicles.
         /// </summary>
         public DbSet<Vehicle> Vehicles { get; set; }
+
+        /// <summary>
+        /// Gets or sets data base set users.
+        /// </summary>
+        public DbSet<User> Users { get; set; }
     }
 }
