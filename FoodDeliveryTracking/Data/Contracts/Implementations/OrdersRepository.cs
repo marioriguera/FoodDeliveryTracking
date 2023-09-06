@@ -51,14 +51,18 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             _logger.LogTrace($"Delete was successful {orderId}");
             return true;
         }
+
         /// <inheritdoc />
         public async Task<bool> AssignVehicleToOrderAsync(int orderId, int vehicleId)
         {
             _logger.LogTrace($"Attempting to Assign a vehicle to order:  {orderId}");
-            var order = await _context.Orders.FindAsync(orderId);
+            var order = await _context.Orders.AsQueryable().Where(x => x.Id.Equals(orderId)).FirstOrDefaultAsync();
             if (order == null) return false;
 
             order.AssignedVehicleId = vehicleId;
+            // When assigning an order to a vehicle, I consider that the order changes status.
+            order.Status = OrderStatus.InTransit;
+
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -66,7 +70,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         public async Task<ILocation> GetVehicleLocationAsync(int orderId)
         {
             _logger.LogTrace($"Attempting to Assign a vehicle to order {orderId}");
-            var order = await _context.Orders
+            var order = await _context.Orders.AsQueryable()
                                       .Include(o => o.AssignedVehicleObject)
                                       .FirstOrDefaultAsync(o => o.Id == orderId);
 
