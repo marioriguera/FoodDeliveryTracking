@@ -6,7 +6,7 @@ namespace FoodDeliveryTracking.Models.Request
     /// <summary>
     /// Represents an Vehicle request that implements the <see cref="IVehicle"/> interface.
     /// </summary>
-    public class VehicleRequest : IVehicle
+    public class AddVehicleRequest : IVehicle
     {
         /// <inheritdoc />
         public string Plate { get; set; }
@@ -20,10 +20,13 @@ namespace FoodDeliveryTracking.Models.Request
         public ICollection<ILocation> LocationHistory { get; set; }
 
         /// <inheritdoc />
+        [JsonIgnore]
         public int CurrentLocationId { get; set; }
 
         /// <inheritdoc />
         [JsonIgnore]
-        public ILocation CurrentLocation { get; set; }
+        public ILocation CurrentLocation => CurrentLocationObject;
+        [JsonPropertyName("currentlocation")]
+        public AddVehicleLocationRequest CurrentLocationObject { get; set; }
     }
 }

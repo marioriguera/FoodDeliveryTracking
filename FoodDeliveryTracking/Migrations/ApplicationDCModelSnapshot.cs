@@ -57,70 +57,70 @@ namespace FoodDeliveryTracking.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1367),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4033),
                             Latitude = 40.4189m,
                             Longitude = -3.6919m
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1400),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4075),
                             Latitude = 40.4193m,
                             Longitude = -3.6905m
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1402),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4078),
                             Latitude = 40.4176m,
                             Longitude = -3.6890m
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1405),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4081),
                             Latitude = 40.4172m,
                             Longitude = -3.6883m
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1407),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4083),
                             Latitude = 40.4163m,
                             Longitude = -3.6871m
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1410),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4086),
                             Latitude = 40.4158m,
                             Longitude = -3.6862m
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1412),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4088),
                             Latitude = 40.4151m,
                             Longitude = -3.6854m
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1415),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4091),
                             Latitude = 40.4146m,
                             Longitude = -3.6847m
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1417),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4093),
                             Latitude = 40.4139m,
                             Longitude = -3.6838m
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1419),
+                            Date = new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4104),
                             Latitude = 40.4133m,
                             Longitude = -3.6827m
                         });
@@ -220,6 +220,9 @@ namespace FoodDeliveryTracking.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentLocationId")
+                        .IsUnique();
+
+                    b.HasIndex("Plate")
                         .IsUnique();
 
                     b.ToTable("Vehicles", (string)null);

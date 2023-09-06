@@ -90,16 +90,16 @@ namespace FoodDeliveryTracking.Migrations
                 columns: new[] { "CurrentLocationId", "Date", "Latitude", "Longitude" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1367), 40.4189m, -3.6919m },
-                    { 2, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1400), 40.4193m, -3.6905m },
-                    { 3, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1402), 40.4176m, -3.6890m },
-                    { 4, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1405), 40.4172m, -3.6883m },
-                    { 5, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1407), 40.4163m, -3.6871m },
-                    { 6, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1410), 40.4158m, -3.6862m },
-                    { 7, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1412), 40.4151m, -3.6854m },
-                    { 8, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1415), 40.4146m, -3.6847m },
-                    { 9, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1417), 40.4139m, -3.6838m },
-                    { 10, new DateTime(2023, 9, 5, 18, 14, 9, 697, DateTimeKind.Local).AddTicks(1419), 40.4133m, -3.6827m }
+                    { 1, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4033), 40.4189m, -3.6919m },
+                    { 2, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4075), 40.4193m, -3.6905m },
+                    { 3, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4078), 40.4176m, -3.6890m },
+                    { 4, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4081), 40.4172m, -3.6883m },
+                    { 5, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4083), 40.4163m, -3.6871m },
+                    { 6, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4086), 40.4158m, -3.6862m },
+                    { 7, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4088), 40.4151m, -3.6854m },
+                    { 8, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4091), 40.4146m, -3.6847m },
+                    { 9, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4093), 40.4139m, -3.6838m },
+                    { 10, new DateTime(2023, 9, 6, 15, 52, 25, 213, DateTimeKind.Local).AddTicks(4104), 40.4133m, -3.6827m }
                 });
 
             migrationBuilder.InsertData(
@@ -133,6 +133,12 @@ namespace FoodDeliveryTracking.Migrations
                 name: "IX_Vehicles_CurrentLocationId",
                 table: "Vehicles",
                 column: "CurrentLocationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_Plate",
+                table: "Vehicles",
+                column: "Plate",
                 unique: true);
         }
 

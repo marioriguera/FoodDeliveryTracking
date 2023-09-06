@@ -3,6 +3,7 @@ using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace FoodDeliveryTracking.Data.Contracts.Implementations
 {
@@ -46,16 +47,20 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         public async Task<bool> UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation)
         {
             _logger.LogTrace($"Attempting to update a vehicle location:{vehicleId}");
-            var vehicle = await _context.Vehicles.Include(v => v.LocationHistory)
-                                             .FirstOrDefaultAsync(v => v.Id == vehicleId);
-
+            var vehicle = await _context.Vehicles.AsQueryable().Where(x => x.Id.Equals(vehicleId))
+                                                    .Include(v => v.CurrentLocationObject)
+                                                    .FirstOrDefaultAsync();
+            // Validations
             if (vehicle == null) return false;
-            // Add the current location to the history before updating
             if (vehicle.CurrentLocation == null) return false;
 
-            vehicle.LocationHistory.Add(vehicle.CurrentLocation);
+            // Add the current location to the history before updating
+            LocationHistory newLocationHistory = new LocationHistory(vehicle.CurrentLocation);
+            vehicle.LocationHistoryCollection.Add(newLocationHistory);
+
             // Now update the current location
-            vehicle.CurrentLocationObject = new CurrentLocation(newLocation);
+            vehicle.CurrentLocationObject.Latitude = newLocation.Latitude;
+            vehicle.CurrentLocationObject.Longitude = newLocation.Longitude;
 
             return await _context.SaveChangesAsync() > 0;
         }
@@ -64,7 +69,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         public async Task<ILocation> GetVehicleLocationAsync(int vehicleId)
         {
             _logger.LogTrace($"Attempting to retrieve a vehicle location:{vehicleId}");
-            var vehicle = await _context.Vehicles.FindAsync(vehicleId);
+            var vehicle = await _context.Vehicles.AsQueryable().Where(x => x.Id.Equals(vehicleId)).Include(x => x.CurrentLocationObject).FirstOrDefaultAsync();
             return vehicle?.CurrentLocation;
         }
     }

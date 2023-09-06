@@ -20,10 +20,13 @@ namespace FoodDeliveryTracking.Data.Models
         public Vehicle(IVehicle vehicle)
         {
             Plate = vehicle.Plate;
+            // Manage orders
             OrdersCollection.Clear();
-            OrdersCollection.Concat(vehicle.Orders);
-            LocationHistory.Clear();
-            LocationHistory.Concat(vehicle.LocationHistory);
+            if (vehicle.Orders != null) OrdersCollection.Concat(vehicle.Orders);
+            // Manage locations history
+            LocationHistoryCollection.Clear();
+            if (vehicle.LocationHistory != null) LocationHistoryCollection.Concat(vehicle.LocationHistory);
+            // Manage current location
             CurrentLocationId = vehicle.CurrentLocationId;
             CurrentLocationObject = new CurrentLocation(vehicle.CurrentLocation);
         }
@@ -65,6 +68,10 @@ namespace FoodDeliveryTracking.Data.Models
                 .HasColumnName("VehicleId")
                 .HasColumnOrder(0)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Vehicle>()
+                .HasIndex(e => e.Plate)
+                .IsUnique();
 
             modelBuilder.Entity<Vehicle>()
                 .Property(v => v.Plate)
