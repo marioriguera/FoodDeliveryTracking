@@ -1,7 +1,7 @@
-﻿using NLog.Config;
+﻿using NLog;
+using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
-using NLog;
 
 namespace FoodDeliveryTracking.Config
 {

@@ -1,6 +1,4 @@
-﻿using System.Net.Mime;
-
-namespace FoodDeliveryTracking.Config
+﻿namespace FoodDeliveryTracking.Config
 {
     /// <summary>
     /// Manages api configuration values.

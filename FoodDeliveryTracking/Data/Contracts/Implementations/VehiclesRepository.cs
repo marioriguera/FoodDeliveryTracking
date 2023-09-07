@@ -3,7 +3,6 @@ using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace FoodDeliveryTracking.Data.Contracts.Implementations
 {

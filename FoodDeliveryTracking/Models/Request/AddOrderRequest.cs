@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using FoodDeliveryTracking.Data.Models;
+﻿using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Services.Models;
+using System.Text.Json.Serialization;
 
 namespace FoodDeliveryTracking.Models.Request
 {

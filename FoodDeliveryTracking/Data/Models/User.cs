@@ -70,7 +70,7 @@ namespace FoodDeliveryTracking.Data.Models
 
             modelBuilder.Entity<User>()
                 .Property(v => v.Token)
-                .HasColumnType("nvarchar(256)")
+                .HasColumnType("nvarchar(2000)")
                 .HasColumnName(nameof(Token))
                 .HasColumnOrder(30);
         }

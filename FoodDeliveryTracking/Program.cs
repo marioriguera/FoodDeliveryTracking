@@ -58,8 +58,11 @@ namespace FoodDeliveryTracking
                         {
                             ValidateIssuerSigningKey = true,
                             IssuerSigningKey = new SymmetricSecurityKey(key),
-                            ValidateIssuer = false,
-                            ValidateAudience = false
+                            ValidateIssuer = true,
+                            ValidIssuer = "FoodDeliveryTrackingTokenIssuer",
+                            ValidateAudience = true,
+                            ValidAudience = "MiApplicationFoodDeliveryTracking",
+                            ClockSkew = TimeSpan.Zero
                         };
                     });
 

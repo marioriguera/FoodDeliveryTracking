@@ -25,7 +25,9 @@ namespace FoodDeliveryTracking.Services.Auth
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddDays(10),
+                Expires = DateTime.UtcNow.AddMinutes(10),
+                Issuer = "FoodDeliveryTrackingTokenIssuer",
+                Audience = "MiApplicationFoodDeliveryTracking",
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

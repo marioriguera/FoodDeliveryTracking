@@ -1,5 +1,4 @@
-﻿using FoodDeliveryTracking.Data.Models;
-using FoodDeliveryTracking.Services.Models;
+﻿using FoodDeliveryTracking.Services.Models;
 
 namespace FoodDeliveryTracking.Data.Contracts
 {
@@ -26,7 +25,7 @@ namespace FoodDeliveryTracking.Data.Contracts
         /// <param name="vehicleId">The ID of the vehicle.</param>
         /// <param name="newLocation">The new location to set.</param>
         /// <returns>True if the operation was successful; otherwise, false.</returns>
-        Task<bool> UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation); 
+        Task<bool> UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation);
 
         /// <summary>
         /// Retrieves the location of a specific vehicle.

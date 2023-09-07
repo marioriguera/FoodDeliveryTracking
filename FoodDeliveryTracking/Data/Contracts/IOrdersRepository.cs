@@ -1,5 +1,4 @@
-﻿using FoodDeliveryTracking.Data.Models;
-using FoodDeliveryTracking.Services.Models;
+﻿using FoodDeliveryTracking.Services.Models;
 
 namespace FoodDeliveryTracking.Data.Contracts
 {

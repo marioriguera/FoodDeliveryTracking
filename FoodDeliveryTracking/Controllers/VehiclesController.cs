@@ -31,7 +31,7 @@ namespace FoodDeliveryTracking.Controllers
         /// <returns>An asynchronous task that represents the action's result, which contains a collection of vehicles.</returns>
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<MessageResponse<ICollection<VehicleResponse>>>> AllVehiclesAsync()
+        public async Task<IActionResult> AllVehiclesAsync()
         {
             try
             {
