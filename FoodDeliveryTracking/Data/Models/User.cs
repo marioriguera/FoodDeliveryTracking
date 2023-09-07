@@ -60,7 +60,6 @@ namespace FoodDeliveryTracking.Data.Models
                 .HasColumnOrder(10)
                 .IsRequired();
 
-            // ToDo: Encriptar password
             modelBuilder.Entity<User>()
                 .Property(v => v.Password)
                 .HasColumnType("nvarchar(100)")
