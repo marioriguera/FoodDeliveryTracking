@@ -36,7 +36,7 @@ namespace FoodDeliveryTracking.Controllers
         [HttpPost]
         [Authorize]
         [Route("insert")]
-        public async Task<IActionResult> InsertOrder([FromBody] AddOrderRequest newOrder)
+        public async Task<IActionResult> InsertOrderAsync([FromBody] AddOrderRequest newOrder)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace FoodDeliveryTracking.Controllers
         [HttpDelete]
         [Authorize]
         [Route("delete/{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<IActionResult> DeleteOrderAsync(int id)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace FoodDeliveryTracking.Controllers
         [HttpPut]
         [Authorize]
         [Route("{orderId}/assign-vehicle/{vehicleId}")]
-        public async Task<IActionResult> AssignVehicleToOrder(int orderId, int vehicleId)
+        public async Task<IActionResult> AssignVehicleToOrderAsync(int orderId, int vehicleId)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace FoodDeliveryTracking.Controllers
         [HttpGet]
         [Authorize]
         [Route("{orderId}/location")]
-        public async Task<IActionResult> GetOrderLocation(int orderId)
+        public async Task<IActionResult> GetOrderLocationAsync(int orderId)
         {
             try
             {
