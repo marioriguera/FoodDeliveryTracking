@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignalR Vehicle Location Client</title>
+<script src="./node_modules/@microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7114/vehicleLocationHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        connection.on("receivevehiclelocation", (vehicleId, latitude, longitude) => {
+            const log = document.getElementById('log');
+            const message = `Vehicle ID: ${vehicleId}, Latitude: ${latitude}, Longitude: ${longitude}`;
+            const li = document.createElement('li');
+            li.textContent = message;
+            log.appendChild(li);
+        });
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            connection.start()
+                .then(() => console.log('Connection started'))
+                .catch(err => console.error('Error while starting connection: ' + err))
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            connection.stop()
+                .then(() => console.log('Connection stopped'))
+                .catch(err => console.error('Error while stopping connection: ' + err))
+        });
+    });
+</script>
+</head>
+<body>
+<button id="startButton">Start</button>
+<button id="stopButton">Stop</button>
+<ul id="log"></ul>
+</body>
+</html>

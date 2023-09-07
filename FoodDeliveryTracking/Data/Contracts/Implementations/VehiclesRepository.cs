@@ -2,6 +2,8 @@
 using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
+using FoodDeliveryTracking.SignalRComunication;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -14,15 +16,17 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
     {
         private readonly ILoggerManager _logger;
         private readonly ApplicationDC _context;
+        private readonly IHubContext<VehicleLocationHub> _hubContext;
 
         /// <summary>
         /// Initialize a new instance of <see cref="VehiclesRepository"/> class.
         /// </summary>
         /// <param name="context">The database context for accessing vehicle data.</param>
-        public VehiclesRepository(ILoggerManager logger, ApplicationDC context)
+        public VehiclesRepository(ILoggerManager logger, ApplicationDC context, IHubContext<VehicleLocationHub> hubContext)
         {
             _logger = logger;
             _context = context;
+            _hubContext = hubContext;
         }
 
         /// <inheritdoc />
@@ -62,8 +66,14 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             vehicle.CurrentLocationObject.Latitude = newLocation.Latitude;
             vehicle.CurrentLocationObject.Longitude = newLocation.Longitude;
 
+            // Send updated loqations to real time clients
+            await _hubContext.Clients.All.SendAsync("receivevehiclelocation", vehicleId, newLocation.Latitude,
+                                                    newLocation.Longitude);
+
+
             return await _context.SaveChangesAsync() > 0;
         }
+
 
         /// <inheritdoc />
         public async Task<ILocation> GetVehicleLocationAsync(int vehicleId)
