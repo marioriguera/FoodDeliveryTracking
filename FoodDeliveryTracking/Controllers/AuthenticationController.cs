@@ -1,9 +1,12 @@
 ﻿using FoodDeliveryTracking.Data.Contracts;
+using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Auth;
 using FoodDeliveryTracking.Services.Encrypt;
 using FoodDeliveryTracking.Services.Logger;
+using FoodDeliveryTracking.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryTracking.Controllers
@@ -67,6 +70,28 @@ namespace FoodDeliveryTracking.Controllers
             {
                 _loggerManager.LogWarn($"Unhandled error when trying to login user {user.Name} name. Message: {ex.Message}");
                 return BadRequest(MessageResponse<String>.Fail($"Unhandled error when trying to login user {user.Name} name."));
+            }
+        }
+
+        // ToDo: Terminar el crud de users.
+        [HttpPost]
+        [Route("insert")]
+        [Authorize]
+        public async Task<IActionResult> AddUserAsync([FromBody] AddAuthUserRequest addAuthUser)
+        {
+            try
+            {
+                if (await _usersRepository.InsertUserAsync(addAuthUser))
+                {
+
+                }
+                _loggerManager.LogWarn($"Could not add user. {addAuthUser.Name} name.");
+                return Conflict(MessageResponse<string>.Fail($"Unauthorized user."));
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogWarn($"Unhandled error when trying to add user {addAuthUser.Name} name. Message: {ex.Message}");
+                return BadRequest(MessageResponse<String>.Fail($"Unhandled error when trying to add user {addAuthUser.Name} name."));
             }
         }
     }
