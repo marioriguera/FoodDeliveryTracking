@@ -1,20 +1,30 @@
 ﻿using FoodDeliveryTracking.Models.Request;
+using FoodDeliveryTracking.Services.Logger;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FoodDeliveryTracking.Services.Auth
+namespace FoodDeliveryTracking.Services.Auth.Implementations
 {
-    public static class TokenManager
+    public class TokenManager : ITokenManager
     {
+        private readonly ILoggerManager _logger;
+
         /// <summary>
-        /// Get token.
+        /// Initialize a new instance of <see cref="TokenManager"/> class.
         /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns>String token.</returns>
-        public static string GetToken(AuthUserRequest user, string secret)
+        /// <param name="logger"></param>
+        public TokenManager(ILoggerManager logger)
         {
+            _logger = logger;
+        }
+
+        /// <inheritdoc/>
+        public string GetToken(AuthUserRequest user, string secret)
+        {
+            _logger.LogTrace($"Get token starting");
+
             JwtSecurityTokenHandler tokenHandler = new();
             string tokenWrite = string.Empty;
             byte[] key = Encoding.ASCII.GetBytes(secret);
@@ -31,7 +41,7 @@ namespace FoodDeliveryTracking.Services.Auth
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            SecurityToken? token = tokenHandler.CreateToken(tokenDescriptor);
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             tokenWrite = tokenHandler.WriteToken(token);
 
             return tokenWrite;

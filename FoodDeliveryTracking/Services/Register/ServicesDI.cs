@@ -1,4 +1,6 @@
-﻿using FoodDeliveryTracking.Services.Logger;
+﻿using FoodDeliveryTracking.Services.Auth;
+using FoodDeliveryTracking.Services.Auth.Implementations;
+using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Logger.Implementations;
 
 namespace FoodDeliveryTracking.Services.Register
@@ -16,6 +18,7 @@ namespace FoodDeliveryTracking.Services.Register
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             services.AddSingleton<ILoggerManager, LoggerManager>();
+            services.AddScoped<ITokenManager, TokenManager>();
             return services;
         }
     }

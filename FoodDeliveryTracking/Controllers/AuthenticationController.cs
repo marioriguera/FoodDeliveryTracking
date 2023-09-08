@@ -2,6 +2,7 @@
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Auth;
+using FoodDeliveryTracking.Services.Auth.Implementations;
 using FoodDeliveryTracking.Services.Logger;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,16 +17,19 @@ namespace FoodDeliveryTracking.Controllers
     {
         private readonly ILoggerManager _loggerManager;
         private readonly IUsersRepository _usersRepository;
+        private readonly ITokenManager _tokenManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class with the provided logger manager and users repository.
         /// </summary>
         /// <param name="loggerManager">The logger manager used for logging.</param>
         /// <param name="usersRepository">The repository for interacting with user data.</param>
-        public AuthenticationController(ILoggerManager loggerManager, IUsersRepository usersRepository)
+        /// <param name="tokenManager">The interface for interacting with token manager.</param>
+        public AuthenticationController(ILoggerManager loggerManager, IUsersRepository usersRepository, ITokenManager tokenManager)
         {
             _loggerManager = loggerManager;
             _usersRepository = usersRepository;
+            _tokenManager = tokenManager;
         }
 
         /// <summary>
@@ -44,7 +48,7 @@ namespace FoodDeliveryTracking.Controllers
                     AuthUserResponse userResponse = new AuthUserResponse()
                     {
                         Name = user.Name,
-                        Token = TokenManager.GetToken(user, Program.AppSettings.Secret),
+                        Token = _tokenManager.GetToken(user, Program.AppSettings.Secret),
                         Password = user.Password
                     };
 
