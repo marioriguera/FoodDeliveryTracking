@@ -2,7 +2,7 @@
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Auth;
-using FoodDeliveryTracking.Services.Auth.Implementations;
+using FoodDeliveryTracking.Services.Encrypt;
 using FoodDeliveryTracking.Services.Logger;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +18,7 @@ namespace FoodDeliveryTracking.Controllers
         private readonly ILoggerManager _loggerManager;
         private readonly IUsersRepository _usersRepository;
         private readonly ITokenManager _tokenManager;
+        private readonly IEncryptService _encryptService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class with the provided logger manager and users repository.
@@ -25,11 +26,14 @@ namespace FoodDeliveryTracking.Controllers
         /// <param name="loggerManager">The logger manager used for logging.</param>
         /// <param name="usersRepository">The repository for interacting with user data.</param>
         /// <param name="tokenManager">The interface for interacting with token manager.</param>
-        public AuthenticationController(ILoggerManager loggerManager, IUsersRepository usersRepository, ITokenManager tokenManager)
+        /// <param name="encryptService">The interface for interacting with encrypt service.</param>
+        public AuthenticationController(ILoggerManager loggerManager, IUsersRepository usersRepository,
+                                        ITokenManager tokenManager, IEncryptService encryptService)
         {
             _loggerManager = loggerManager;
             _usersRepository = usersRepository;
             _tokenManager = tokenManager;
+            _encryptService = encryptService;
         }
 
         /// <summary>

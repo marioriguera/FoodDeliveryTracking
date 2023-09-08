@@ -1,5 +1,7 @@
 ﻿using FoodDeliveryTracking.Services.Auth;
 using FoodDeliveryTracking.Services.Auth.Implementations;
+using FoodDeliveryTracking.Services.Encrypt;
+using FoodDeliveryTracking.Services.Encrypt.Implementations;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Logger.Implementations;
 
@@ -19,6 +21,7 @@ namespace FoodDeliveryTracking.Services.Register
         {
             services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<ITokenManager, TokenManager>();
+            services.AddScoped<IEncryptService, EncryptService>();
             return services;
         }
     }

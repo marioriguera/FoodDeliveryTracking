@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -104,22 +105,22 @@ namespace FoodDeliveryTracking.Migrations
                 columns: new[] { "CurrentLocationId", "Date", "Latitude", "Longitude" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5502), 40.4189m, -3.6919m },
-                    { 2, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5539), 40.4193m, -3.6905m },
-                    { 3, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5542), 40.4176m, -3.6890m },
-                    { 4, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5544), 40.4172m, -3.6883m },
-                    { 5, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5547), 40.4163m, -3.6871m },
-                    { 6, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5549), 40.4158m, -3.6862m },
-                    { 7, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5552), 40.4151m, -3.6854m },
-                    { 8, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5554), 40.4146m, -3.6847m },
-                    { 9, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5557), 40.4139m, -3.6838m },
-                    { 10, new DateTime(2023, 9, 7, 10, 23, 57, 410, DateTimeKind.Local).AddTicks(5560), 40.4133m, -3.6827m }
+                    { 1, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5138), 40.4189m, -3.6919m },
+                    { 2, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5175), 40.4193m, -3.6905m },
+                    { 3, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5178), 40.4176m, -3.6890m },
+                    { 4, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5181), 40.4172m, -3.6883m },
+                    { 5, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5183), 40.4163m, -3.6871m },
+                    { 6, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5186), 40.4158m, -3.6862m },
+                    { 7, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5189), 40.4151m, -3.6854m },
+                    { 8, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5192), 40.4146m, -3.6847m },
+                    { 9, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5195), 40.4139m, -3.6838m },
+                    { 10, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5197), 40.4133m, -3.6827m }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "User", "Name", "Password", "Token" },
-                values: new object[] { 1, "Administrator", "AdministratorPass", null });
+                values: new object[] { 1, "Administrator", "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=", null });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",

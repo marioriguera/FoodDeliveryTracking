@@ -42,8 +42,8 @@ namespace FoodDeliveryTracking
                 var appSettingsSection = builder.Configuration.GetSection("AppSettings");
                 builder.Services.Configure<AppSettings>(appSettingsSection);
 
-                var appSettings = appSettingsSection.Get<AppSettings>();
-                AppSettings.Secret = appSettings.Secret!;
+                AppSettings = appSettingsSection.Get<AppSettings>();
+
                 var key = Encoding.ASCII.GetBytes(AppSettings.Secret);
                 builder.Services.AddAuthentication(d =>
                 {

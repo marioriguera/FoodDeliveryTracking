@@ -84,9 +84,10 @@ namespace FoodDeliveryTracking.Data.Context
         /// <param name="modelBuilder">The ModelBuilder instance for configuring the database context.</param>
         private void SeedUsers(ModelBuilder modelBuilder)
         {
+            /// pass: AdministratorPass
             modelBuilder.Entity<User>().HasData
                 (
-                    new User() { Id = 1, Name = "Administrator", Password = "AdministratorPass" }
+                    new User() { Id = 1, Name = "Administrator", Password = "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=" }
                 );
         }
 
