@@ -12,6 +12,9 @@ namespace FoodDeliveryTracking.Models.Request
         ///<inheritdoc/>
         public string? Name { get; set; }
 
+        /// <inheritdoc/>
+        public UserRole? Role { get; set; }
+
         ///<inheritdoc/>
         public string? Password { get; set; }
 

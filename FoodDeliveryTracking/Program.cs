@@ -1,5 +1,7 @@
 using FoodDeliveryTracking.Config;
 using FoodDeliveryTracking.Data.Context;
+using FoodDeliveryTracking.Data.Register;
+using FoodDeliveryTracking.Services.Register;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -49,8 +51,8 @@ namespace FoodDeliveryTracking
                 {
                     d.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     d.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                    .AddJwtBearer(d =>
+                    d.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(d =>
                     {
                         d.RequireHttpsMetadata = false;
                         d.SaveToken = true;
@@ -62,12 +64,13 @@ namespace FoodDeliveryTracking
                             ValidIssuer = "FoodDeliveryTrackingTokenIssuer",
                             ValidateAudience = true,
                             ValidAudience = "MiApplicationFoodDeliveryTracking",
-                            ClockSkew = TimeSpan.Zero
+                            ClockSkew = TimeSpan.Zero,
+                            ValidateLifetime = true
+
                         };
                     });
 
                 // Data context configuration.
-                builder.Services.AddTransient<ApplicationDC>();
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
                 builder.Services.AddDbContext<ApplicationDC>(options =>
                 {
@@ -75,8 +78,8 @@ namespace FoodDeliveryTracking
                 }, ServiceLifetime.Transient);
 
                 // Dependencies injection
-                Services.Register.ServicesDI.AddDependencies(builder.Services);
-                Data.Register.DataDI.AddDependencies(builder.Services);
+                ServicesDI.AddDependencies(builder.Services);
+                DataDI.AddDependencies(builder.Services);
 
                 // Add services to the container.
                 builder.Services.AddControllers();

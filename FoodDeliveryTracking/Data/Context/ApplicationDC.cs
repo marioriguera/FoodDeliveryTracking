@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryTracking.Data.Models;
+using FoodDeliveryTracking.Services.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryTracking.Data.Context
@@ -84,11 +85,29 @@ namespace FoodDeliveryTracking.Data.Context
         /// <param name="modelBuilder">The ModelBuilder instance for configuring the database context.</param>
         private void SeedUsers(ModelBuilder modelBuilder)
         {
-            /// pass: AdministratorPass
             modelBuilder.Entity<User>().HasData
-                (
-                    new User() { Id = 1, Name = "Administrator", Password = "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=" }
-                );
+            (
+                /// pass: AdministratorPass
+                new User() { Id = 1, Name = "Administrator", Role = UserRole.Admin, Password = "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=" },
+                /// pass: Password1Hash
+                new User() { Id = 2, Name = "John Doe", Role = UserRole.User, Password = "Uv2qc2qg1Zbeklz9BqhGnw==" },
+                /// pass: Password2Hash
+                new User() { Id = 3, Name = "Alice Smith", Role = UserRole.Moderator, Password = "mUmlmeymvz42Pm2RpcoFWA==" },
+                /// pass: Password3Hash
+                new User() { Id = 4, Name = "Bob Johnson", Role = UserRole.Editor, Password = "QqNUyy2dYs55zai7iK2XvQ==" },
+                /// pass: Password4Hash
+                new User() { Id = 5, Name = "Guest User", Role = UserRole.Guest, Password = "4BZxSez+PerVXkyO7MkvnQ==" },
+                /// pass: Password5Hash
+                new User() { Id = 6, Name = "Mary Brown", Role = UserRole.User, Password = "SQ6gGPt0d3lihQey/WNCvw==" },
+                /// pass: Password6Hash
+                new User() { Id = 7, Name = "David Lee", Role = UserRole.User, Password = "ydy8uaKXXRbcWcgxMsCGdA==" },
+                /// pass: Password7Hash
+                new User() { Id = 8, Name = "Sarah Wilson", Role = UserRole.User, Password = "TTJ/uLY6ZtaT7uKVDSNAvA==" },
+                /// pass: Password8Hash
+                new User() { Id = 9, Name = "Michael Clark", Role = UserRole.User, Password = "WmBsPlK4crj9DdHQ/g+LYg==" },
+                /// pass: Password9Hash
+                new User() { Id = 10, Name = "Emily Davis", Role = UserRole.User, Password = "sy23QAi50qJ18O8KS3qLVQ==" }
+            );
         }
 
         /// <summary>

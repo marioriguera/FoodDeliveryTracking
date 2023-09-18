@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryTracking.Models.Request;
+using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,7 +22,7 @@ namespace FoodDeliveryTracking.Services.Auth.Implementations
         }
 
         /// <inheritdoc/>
-        public string GetToken(AuthUserRequest user, string secret)
+        public string GetToken(AuthUserResponse user, string secret)
         {
             _logger.LogTrace($"Get token starting");
 
@@ -30,12 +31,13 @@ namespace FoodDeliveryTracking.Services.Auth.Implementations
             byte[] key = Encoding.ASCII.GetBytes(secret);
             ClaimsIdentity claims = new();
 
-            claims.AddClaim(new(ClaimTypes.NameIdentifier, user.Name ?? string.Empty));
+            claims.AddClaim(new(ClaimTypes.Name, user.Name ?? string.Empty));
+            claims.AddClaim(new(ClaimTypes.Role, user.Role.ToString() ?? string.Empty));
 
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 Issuer = "FoodDeliveryTrackingTokenIssuer",
                 Audience = "MiApplicationFoodDeliveryTracking",
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

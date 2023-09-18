@@ -32,7 +32,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         /// <returns>
         ///   <c>true</c> if the user with the provided credentials exists and can be logged in; otherwise, <c>false</c>.
         /// </returns>
-        public async Task<bool> LoginUserAsync(IUser user)
+        public async Task<IUser> LoginUserAsync(IUser user)
         {
             _loggerManager.LogTrace($"Starting user exist check.");
 
@@ -43,7 +43,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
                 .FirstOrDefaultAsync();
 
             // Return true if a user with the provided credentials exists; otherwise, return false.
-            return userResponse != null;
+            return userResponse;
         }
 
         /// <summary>

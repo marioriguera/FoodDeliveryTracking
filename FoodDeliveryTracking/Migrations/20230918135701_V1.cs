@@ -31,6 +31,7 @@ namespace FoodDeliveryTracking.Migrations
                     User = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(2000)", nullable: true)
                 },
@@ -105,22 +106,34 @@ namespace FoodDeliveryTracking.Migrations
                 columns: new[] { "CurrentLocationId", "Date", "Latitude", "Longitude" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5138), 40.4189m, -3.6919m },
-                    { 2, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5175), 40.4193m, -3.6905m },
-                    { 3, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5178), 40.4176m, -3.6890m },
-                    { 4, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5181), 40.4172m, -3.6883m },
-                    { 5, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5183), 40.4163m, -3.6871m },
-                    { 6, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5186), 40.4158m, -3.6862m },
-                    { 7, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5189), 40.4151m, -3.6854m },
-                    { 8, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5192), 40.4146m, -3.6847m },
-                    { 9, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5195), 40.4139m, -3.6838m },
-                    { 10, new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5197), 40.4133m, -3.6827m }
+                    { 1, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3698), 40.4189m, -3.6919m },
+                    { 2, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3740), 40.4193m, -3.6905m },
+                    { 3, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3744), 40.4176m, -3.6890m },
+                    { 4, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3748), 40.4172m, -3.6883m },
+                    { 5, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3751), 40.4163m, -3.6871m },
+                    { 6, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3755), 40.4158m, -3.6862m },
+                    { 7, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3759), 40.4151m, -3.6854m },
+                    { 8, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3763), 40.4146m, -3.6847m },
+                    { 9, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3766), 40.4139m, -3.6838m },
+                    { 10, new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3770), 40.4133m, -3.6827m }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "User", "Name", "Password", "Token" },
-                values: new object[] { 1, "Administrator", "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=", null });
+                columns: new[] { "User", "Name", "Password", "Role", "Token" },
+                values: new object[,]
+                {
+                    { 1, "Administrator", "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=", "Admin", null },
+                    { 2, "John Doe", "Uv2qc2qg1Zbeklz9BqhGnw==", "User", null },
+                    { 3, "Alice Smith", "mUmlmeymvz42Pm2RpcoFWA==", "Moderator", null },
+                    { 4, "Bob Johnson", "QqNUyy2dYs55zai7iK2XvQ==", "Editor", null },
+                    { 5, "Guest User", "4BZxSez+PerVXkyO7MkvnQ==", "Guest", null },
+                    { 6, "Mary Brown", "SQ6gGPt0d3lihQey/WNCvw==", "User", null },
+                    { 7, "David Lee", "ydy8uaKXXRbcWcgxMsCGdA==", "User", null },
+                    { 8, "Sarah Wilson", "TTJ/uLY6ZtaT7uKVDSNAvA==", "User", null },
+                    { 9, "Michael Clark", "WmBsPlK4crj9DdHQ/g+LYg==", "User", null },
+                    { 10, "Emily Davis", "sy23QAi50qJ18O8KS3qLVQ==", "User", null }
+                });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",

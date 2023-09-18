@@ -4,32 +4,6 @@ using Microsoft.EntityFrameworkCore;
 namespace FoodDeliveryTracking.Data.Models
 {
     /// <summary>
-    /// Represents the possible status values of an order.
-    /// </summary>
-    public enum OrderStatus
-    {
-        /// <summary>
-        /// The order has been placed but not yet in transit.
-        /// </summary>
-        Placed,
-
-        /// <summary>
-        /// The order is in transit.
-        /// </summary>
-        InTransit,
-
-        /// <summary>
-        /// The order has been delivered.
-        /// </summary>
-        Delivered,
-
-        /// <summary>
-        /// The order has been canceled.
-        /// </summary>
-        Canceled
-    }
-
-    /// <summary>
     /// Represents an order with an identifier, description, assigned vehicle, and status.
     /// </summary>
     public class Order : IOrder

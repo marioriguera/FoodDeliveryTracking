@@ -1,4 +1,4 @@
-﻿using FoodDeliveryTracking.Models.Request;
+﻿using FoodDeliveryTracking.Models.Response;
 
 namespace FoodDeliveryTracking.Services.Auth
 {
@@ -9,6 +9,6 @@ namespace FoodDeliveryTracking.Services.Auth
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>String token.</returns>
-        string GetToken(AuthUserRequest user, string secret);
+        string GetToken(AuthUserResponse user, string secret);
     }
 }

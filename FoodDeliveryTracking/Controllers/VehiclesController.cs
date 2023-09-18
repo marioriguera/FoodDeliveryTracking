@@ -30,6 +30,7 @@ namespace FoodDeliveryTracking.Controllers
         /// </summary>
         /// <returns>An asynchronous task that represents the action's result, which contains a collection of vehicles.</returns>
         [HttpGet]
+        [Authorize(Roles = "Admin, Editor")]
         [Route("all")]
         public async Task<IActionResult> AllVehiclesAsync()
         {

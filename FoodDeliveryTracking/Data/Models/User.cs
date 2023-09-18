@@ -18,6 +18,7 @@ namespace FoodDeliveryTracking.Data.Models
         {
             Id = user.Id;
             Name = user.Name;
+            Role = user.Role;
             Password = user.Password;
             Token = user.Token;
         }
@@ -27,6 +28,9 @@ namespace FoodDeliveryTracking.Data.Models
 
         /// <inheritdoc/>
         public string? Name { get; set; }
+
+        /// <inheritdoc/>
+        public UserRole? Role { get; set; }
 
         /// <inheritdoc/>
         public string? Password { get; set; }
@@ -61,17 +65,24 @@ namespace FoodDeliveryTracking.Data.Models
                 .IsRequired();
 
             modelBuilder.Entity<User>()
+                .Property(v => v.Role)
+                .HasColumnType("nvarchar(50)")
+                .HasColumnName(nameof(Role))
+                .HasColumnOrder(20)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
                 .Property(v => v.Password)
                 .HasColumnType("nvarchar(100)")
                 .HasColumnName(nameof(Password))
-                .HasColumnOrder(20)
+                .HasColumnOrder(30)
                 .IsRequired();
 
             modelBuilder.Entity<User>()
                 .Property(v => v.Token)
                 .HasColumnType("nvarchar(2000)")
                 .HasColumnName(nameof(Token))
-                .HasColumnOrder(30);
+                .HasColumnOrder(40);
         }
     }
 }

@@ -57,70 +57,70 @@ namespace FoodDeliveryTracking.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5138),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3698),
                             Latitude = 40.4189m,
                             Longitude = -3.6919m
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5175),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3740),
                             Latitude = 40.4193m,
                             Longitude = -3.6905m
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5178),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3744),
                             Latitude = 40.4176m,
                             Longitude = -3.6890m
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5181),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3748),
                             Latitude = 40.4172m,
                             Longitude = -3.6883m
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5183),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3751),
                             Latitude = 40.4163m,
                             Longitude = -3.6871m
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5186),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3755),
                             Latitude = 40.4158m,
                             Longitude = -3.6862m
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5189),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3759),
                             Latitude = 40.4151m,
                             Longitude = -3.6854m
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5192),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3763),
                             Latitude = 40.4146m,
                             Longitude = -3.6847m
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5195),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3766),
                             Latitude = 40.4139m,
                             Longitude = -3.6838m
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2023, 9, 8, 13, 20, 11, 907, DateTimeKind.Local).AddTicks(5197),
+                            Date = new DateTime(2023, 9, 18, 15, 57, 1, 395, DateTimeKind.Local).AddTicks(3770),
                             Latitude = 40.4133m,
                             Longitude = -3.6827m
                         });
@@ -216,12 +216,18 @@ namespace FoodDeliveryTracking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("Password")
+                        .HasColumnOrder(30);
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Role")
                         .HasColumnOrder(20);
 
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(2000)")
                         .HasColumnName("Token")
-                        .HasColumnOrder(30);
+                        .HasColumnOrder(40);
 
                     b.HasKey("Id");
 
@@ -235,7 +241,71 @@ namespace FoodDeliveryTracking.Migrations
                         {
                             Id = 1,
                             Name = "Administrator",
-                            Password = "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc="
+                            Password = "EzxxJ+FkzeLEGUYgqRhKqkPD0Ua2/Cbn06ZhG7Sl+Jc=",
+                            Role = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "John Doe",
+                            Password = "Uv2qc2qg1Zbeklz9BqhGnw==",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Alice Smith",
+                            Password = "mUmlmeymvz42Pm2RpcoFWA==",
+                            Role = "Moderator"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Bob Johnson",
+                            Password = "QqNUyy2dYs55zai7iK2XvQ==",
+                            Role = "Editor"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Guest User",
+                            Password = "4BZxSez+PerVXkyO7MkvnQ==",
+                            Role = "Guest"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Mary Brown",
+                            Password = "SQ6gGPt0d3lihQey/WNCvw==",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "David Lee",
+                            Password = "ydy8uaKXXRbcWcgxMsCGdA==",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Sarah Wilson",
+                            Password = "TTJ/uLY6ZtaT7uKVDSNAvA==",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Michael Clark",
+                            Password = "WmBsPlK4crj9DdHQ/g+LYg==",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Emily Davis",
+                            Password = "sy23QAi50qJ18O8KS3qLVQ==",
+                            Role = "User"
                         });
                 });
 

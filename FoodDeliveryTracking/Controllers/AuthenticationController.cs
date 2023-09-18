@@ -50,17 +50,13 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                if (await _usersRepository.LoginUserAsync(user))
+                AuthUserResponse userVerify = new AuthUserResponse(await _usersRepository.LoginUserAsync(user));
+                if (userVerify != null)
                 {
-                    AuthUserResponse userResponse = new AuthUserResponse()
-                    {
-                        Name = user.Name,
-                        Token = _tokenManager.GetToken(user, Program.AppSettings.Secret),
-                        Password = user.Password
-                    };
+                    userVerify.Token = _tokenManager.GetToken(userVerify, Program.AppSettings.Secret);
 
-                    await _usersRepository.RegisterTokenUserAsync(userResponse);
-                    return Ok(MessageResponse<AuthUserResponse>.Success(userResponse));
+                    await _usersRepository.RegisterTokenUserAsync(userVerify);
+                    return Ok(MessageResponse<AuthUserResponse>.Success(userVerify));
                 }
 
                 _loggerManager.LogWarn($"Unauthorized user {user.Name} name.");
@@ -74,25 +70,25 @@ namespace FoodDeliveryTracking.Controllers
         }
 
         // ToDo: Terminar el crud de users.
-        [HttpPost]
-        [Route("insert")]
-        [Authorize]
-        public async Task<IActionResult> AddUserAsync([FromBody] AddAuthUserRequest addAuthUser)
-        {
-            try
-            {
-                if (await _usersRepository.InsertUserAsync(addAuthUser))
-                {
-
-                }
-                _loggerManager.LogWarn($"Could not add user. {addAuthUser.Name} name.");
-                return Conflict(MessageResponse<string>.Fail($"Unauthorized user."));
-            }
-            catch (Exception ex)
-            {
-                _loggerManager.LogWarn($"Unhandled error when trying to add user {addAuthUser.Name} name. Message: {ex.Message}");
-                return BadRequest(MessageResponse<String>.Fail($"Unhandled error when trying to add user {addAuthUser.Name} name."));
-            }
-        }
+        // [HttpPost]
+        // [Route("insert")]
+        // [Authorize]
+        // public async Task<IActionResult> AddUserAsync([FromBody] AddAuthUserRequest addAuthUser)
+        // {
+        //     try
+        //     {
+        //         if (await _usersRepository.InsertUserAsync(addAuthUser))
+        //         {
+        // 
+        //         }
+        //         _loggerManager.LogWarn($"Could not add user. {addAuthUser.Name} name.");
+        //         return Conflict(MessageResponse<string>.Fail($"Unauthorized user."));
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _loggerManager.LogWarn($"Unhandled error when trying to add user {addAuthUser.Name} name. Message: {ex.Message}");
+        //         return BadRequest(MessageResponse<String>.Fail($"Unhandled error when trying to add user {addAuthUser.Name} name."));
+        //     }
+        // }
     }
 }
