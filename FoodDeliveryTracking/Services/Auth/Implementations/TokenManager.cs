@@ -1,5 +1,4 @@
-﻿using FoodDeliveryTracking.Models.Request;
-using FoodDeliveryTracking.Models.Response;
+﻿using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

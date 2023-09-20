@@ -2,6 +2,7 @@
 using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
+using FoodDeliveryTracking.Services.Patterns;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +16,17 @@ namespace FoodDeliveryTracking.Controllers
     public class OrdersController : Controller
     {
         private readonly ILoggerManager _logger;
-        private readonly IOrdersRepository _ordersRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdersController"/> class with the provided logger manager and orders repository.
         /// </summary>
         /// <param name="loggerManager">The logger manager used for logging.</param>
-        /// <param name="ordersRepository">The repository for managing orders.</param>
-        public OrdersController(ILoggerManager loggerManager, IOrdersRepository ordersRepository)
+        /// <param name="unitOfWork">The repository for unit of work pattern.</param>
+        public OrdersController(ILoggerManager loggerManager, IUnitOfWork unitOfWork)
         {
             _logger = loggerManager;
-            _ordersRepository = ordersRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -40,7 +41,8 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                if (await _ordersRepository.CreateOrderAsync(newOrder))
+                await _unitOfWork.OrdersRepository.CreateOrderAsync(newOrder);
+                if (await _unitOfWork.SaveAsync())
                     return Ok(MessageResponse<String>.Success($"The new order has been saved."));
                 return Ok(MessageResponse<String>.Fail($"The order could not be saved and the cause is unknown."));
             }
@@ -63,8 +65,8 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                var result = await _ordersRepository.DeleteOrderAsync(id);
-                if (!result)
+                await _unitOfWork.OrdersRepository.DeleteOrderAsync(id);
+                if (!await _unitOfWork.SaveAsync())
                 {
                     _logger.LogInfo("Order not found.");
                     return NotFound(MessageResponse<String>.Fail($"Order not found."));
@@ -92,8 +94,8 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                var result = await _ordersRepository.AssignVehicleToOrderAsync(orderId, vehicleId);
-                if (result)
+                await _unitOfWork.OrdersRepository.AssignVehicleToOrderAsync(orderId, vehicleId);
+                if (await _unitOfWork.SaveAsync())
                 {
                     return Ok(MessageResponse<String>.Success("Vehicle assigned to order successfully."));
                 }
@@ -119,7 +121,7 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                var vehicleLocation = await _ordersRepository.GetOrderLocationAsync(orderId);
+                var vehicleLocation = await _unitOfWork.OrdersRepository.GetOrderLocationAsync(orderId);
                 if (vehicleLocation == null)
                 {
                     _logger.LogInfo("Order is on placed.");

@@ -1,72 +1,65 @@
-﻿using FoodDeliveryTracking.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using FoodDeliveryTracking.Data.Context;
 using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryTracking.Data.Contracts.Implementations
 {
     /// <summary>
     /// Implementation of the IOrdersRepository interface for creating orders in the database.
     /// </summary>
-    public class OrdersRepository : IOrdersRepository
+    public class OrdersRepository : GenericRepository<Order>, IOrdersRepository
     {
         private readonly ApplicationDC _context;
         private readonly ILoggerManager _logger;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdersRepository"/> class.
         /// </summary>
         /// <param name="context">The database context.</param>
         /// <param name="logger">The logger for tracing.</param>
-        public OrdersRepository(ApplicationDC context, ILoggerManager logger)
+        public OrdersRepository(ApplicationDC context, ILoggerManager logger) : base(context)
         {
             _context = context;
             _logger = logger;
         }
 
         /// <inheritdoc />
-        public async Task<bool> CreateOrderAsync(IOrder order)
+        public async Task CreateOrderAsync(IOrder order)
         {
             _logger.LogTrace($"Attempting to save {order}");
             Order orderEF = new Order(order);
             await _context.Orders.AddAsync(orderEF);
-            return await _context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />
-        public async Task<bool> DeleteOrderAsync(int orderId)
+        public async Task DeleteOrderAsync(int orderId)
         {
             _logger.LogTrace($"Attempting to delete {orderId}");
             var order = await _context.Orders.FindAsync(orderId);
             if (order == null)
             {
                 _logger.LogTrace($"Order dest'nt exits {orderId}");
-                return false;
             }
 
             _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
             _logger.LogTrace($"Delete was successful {orderId}");
-            return true;
         }
 
         /// <inheritdoc />
-        public async Task<bool> AssignVehicleToOrderAsync(int orderId, int vehicleId)
+        public async Task AssignVehicleToOrderAsync(int orderId, int vehicleId)
         {
             _logger.LogTrace($"Attempting to Assign a vehicle to order:  {orderId}");
             var order = await _context.Orders.AsQueryable().Where(x => x.Id.Equals(orderId)).FirstOrDefaultAsync();
-            if (order == null) return false;
+            if (order == null) throw new Exception($"Order with id {orderId} does not exist.");
 
             var vehicle = await _context.Vehicles.AsQueryable().Where(x => x.Id.Equals(vehicleId)).FirstOrDefaultAsync();
-            if (vehicle == null) return false;
+            if (vehicle == null) throw new Exception($"Vehicle with id {vehicleId} does not exist.");
 
             order.AssignedVehicleObject = vehicle;
             // When assigning an order to a vehicle, I consider that the order changes status to in transit.
             order.Status = OrderStatus.InTransit;
-
-            return await _context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />

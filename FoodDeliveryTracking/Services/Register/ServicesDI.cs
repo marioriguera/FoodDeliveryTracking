@@ -4,6 +4,8 @@ using FoodDeliveryTracking.Services.Encrypt;
 using FoodDeliveryTracking.Services.Encrypt.Implementations;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Logger.Implementations;
+using FoodDeliveryTracking.Services.Patterns;
+using FoodDeliveryTracking.Services.Patterns.Implementations;
 
 namespace FoodDeliveryTracking.Services.Register
 {
@@ -20,6 +22,7 @@ namespace FoodDeliveryTracking.Services.Register
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             services.AddSingleton<ILoggerManager, LoggerManager>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITokenManager, TokenManager>();
             services.AddScoped<IEncryptService, EncryptService>();
             return services;

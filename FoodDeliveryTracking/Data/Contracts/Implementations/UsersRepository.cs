@@ -1,25 +1,25 @@
-﻿using FoodDeliveryTracking.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using FoodDeliveryTracking.Data.Context;
 using FoodDeliveryTracking.Data.Models;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryTracking.Data.Contracts.Implementations
 {
     /// <summary>
     /// Implementation of the IUsersRepository interface for interacting with user data in the database.
     /// </summary>
-    public class UsersRepository : IUsersRepository
+    public class UsersRepository : GenericRepository<User>, IUsersRepository
     {
         private readonly ILoggerManager _loggerManager;
-        private readonly ApplicationDC _context;
+        public ApplicationDC _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersRepository"/> class with the provided logger manager and database context.
         /// </summary>
         /// <param name="lggerManager">The logger manager used for logging.</param>
         /// <param name="context">The database context for accessing user data.</param>
-        public UsersRepository(ILoggerManager lggerManager, ApplicationDC context)
+        public UsersRepository(ILoggerManager lggerManager, ApplicationDC context) : base(context)
         {
             _loggerManager = lggerManager;
             _context = context;
@@ -50,9 +50,6 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         /// Registers a token for a user asynchronously.
         /// </summary>
         /// <param name="user">The user object containing the token to register.</param>
-        /// <returns>
-        ///   <c>true</c> if the user with the provided credentials exists and the token is registered successfully; otherwise, <c>false</c>.
-        /// </returns>
         /// <exception cref="NullReferenceException">Thrown if the user with the provided credentials is not found.</exception>
         public async Task RegisterTokenUserAsync(IUser user)
         {
@@ -63,8 +60,6 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
 
             if (userResponse == null) throw new NullReferenceException($"User {user.Name} not found.");
             userResponse.Token = user.Token;
-
-            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,23 +1,25 @@
-﻿using FoodDeliveryTracking.Services.Models;
+﻿using FoodDeliveryTracking.Data.Models;
+using FoodDeliveryTracking.Services.Models;
 
 namespace FoodDeliveryTracking.Data.Contracts
 {
     /// <summary>
     /// Represents a repository for retrieving information about vehicles.
     /// </summary>
-    public interface IVehiclesRepository
+    public interface IVehiclesRepository : IGenericRepository<Vehicle>
     {
         /// <summary>
         /// Asynchronously retrieves a collection of all vehicles.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation and contains a collection of vehicles.</returns>
-        Task<ICollection<IVehicle>> GetAllAsync();
+        Task<ICollection<IVehicle>> GetAllVehiclesAsync();
+
         /// <summary>
         /// Inserts a new vehicle into the database.
         /// </summary>
         /// <param name="vehicle">The vehicle object to insert.</param>
         /// <returns>True if the operation was successful; otherwise, false.</returns>
-        Task<bool> InsertVehicleAsync(IVehicle vehicle);
+        Task InsertVehicleAsync(IVehicle vehicle);
 
         /// <summary>
         /// Updates the location of a specific vehicle.
@@ -25,7 +27,7 @@ namespace FoodDeliveryTracking.Data.Contracts
         /// <param name="vehicleId">The ID of the vehicle.</param>
         /// <param name="newLocation">The new location to set.</param>
         /// <returns>True if the operation was successful; otherwise, false.</returns>
-        Task<bool> UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation);
+        Task UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation);
 
         /// <summary>
         /// Retrieves the location of a specific vehicle.

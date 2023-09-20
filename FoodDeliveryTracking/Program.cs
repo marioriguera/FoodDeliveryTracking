@@ -75,7 +75,7 @@ namespace FoodDeliveryTracking
                 builder.Services.AddDbContext<ApplicationDC>(options =>
                 {
                     options.UseSqlServer(connectionString);
-                }, ServiceLifetime.Transient);
+                }, ServiceLifetime.Scoped);
 
                 // Dependencies injection
                 ServicesDI.AddDependencies(builder.Services);

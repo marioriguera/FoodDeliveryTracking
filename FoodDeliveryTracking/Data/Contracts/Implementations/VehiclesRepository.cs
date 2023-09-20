@@ -9,7 +9,7 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
     /// <summary>
     /// Represents a repository for retrieving information about vehicles.
     /// </summary>
-    public class VehiclesRepository : IVehiclesRepository
+    public class VehiclesRepository : GenericRepository<Vehicle>, IVehiclesRepository
     {
         private readonly ILoggerManager _logger;
         private readonly ApplicationDC _context;
@@ -18,14 +18,14 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         /// Initialize a new instance of <see cref="VehiclesRepository"/> class.
         /// </summary>
         /// <param name="context">The database context for accessing vehicle data.</param>
-        public VehiclesRepository(ILoggerManager logger, ApplicationDC context)
+        public VehiclesRepository(ILoggerManager logger, ApplicationDC context) : base(context)
         {
             _logger = logger;
             _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<ICollection<IVehicle>> GetAllAsync()
+        public async Task<ICollection<IVehicle>> GetAllVehiclesAsync()
         {
             _logger.LogTrace("Attempting to get all vehicles");
             var vehicles = _context.Vehicles.AsQueryable().Include(x => x.CurrentLocationObject);
@@ -34,24 +34,23 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
         }
 
         /// <inheritdoc />
-        public async Task<bool> InsertVehicleAsync(IVehicle vehicle)
+        public async Task InsertVehicleAsync(IVehicle vehicle)
         {
             _logger.LogTrace($"Attempting to save a vehicle:{vehicle}");
             Vehicle vehicleToInsert = new Vehicle(vehicle);
             await _context.Vehicles.AddAsync(vehicleToInsert);
-            return await _context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />
-        public async Task<bool> UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation)
+        public async Task UpdateVehicleLocationAsync(int vehicleId, ILocation newLocation)
         {
             _logger.LogTrace($"Attempting to update a vehicle location:{vehicleId}");
             var vehicle = await _context.Vehicles.AsQueryable().Where(x => x.Id.Equals(vehicleId))
                                                     .Include(v => v.CurrentLocationObject)
                                                     .FirstOrDefaultAsync();
             // Validations
-            if (vehicle == null) return false;
-            if (vehicle.CurrentLocation == null) return false;
+            if (vehicle == null) throw new Exception($"Vehicle with id {vehicleId} does not exist.");
+            if (vehicle.CurrentLocation == null) throw new Exception($"The vehicle with ID {vehicleId} does not have a defined location.");
 
             // Add the current location to the history before updating
             LocationHistory newLocationHistory = new LocationHistory(vehicle.CurrentLocation);
@@ -60,8 +59,6 @@ namespace FoodDeliveryTracking.Data.Contracts.Implementations
             // Now update the current location
             vehicle.CurrentLocationObject.Latitude = newLocation.Latitude;
             vehicle.CurrentLocationObject.Longitude = newLocation.Longitude;
-
-            return await _context.SaveChangesAsync() > 0;
         }
 
         /// <inheritdoc />

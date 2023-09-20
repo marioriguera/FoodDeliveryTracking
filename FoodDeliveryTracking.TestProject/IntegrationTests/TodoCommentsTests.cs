@@ -10,6 +10,9 @@ namespace FoodDeliveryTracking.TestProject.IntegrationTests
     /// </summary>
     public class TodoCommentsTests
     {
+        /// <summary>
+        /// This unit test verifies that no pending TODO comments exist in the codebase.
+        /// </summary>
         [Fact]
         public void NoPendingTODOCommentsShouldExist()
         {
@@ -34,5 +37,6 @@ namespace FoodDeliveryTracking.TestProject.IntegrationTests
 
             Assert.Empty(todoComments);
         }
+
     }
 }

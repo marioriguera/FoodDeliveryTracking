@@ -3,6 +3,7 @@ using FoodDeliveryTracking.Models.Request;
 using FoodDeliveryTracking.Models.Response;
 using FoodDeliveryTracking.Services.Logger;
 using FoodDeliveryTracking.Services.Models;
+using FoodDeliveryTracking.Services.Patterns;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,16 +14,16 @@ namespace FoodDeliveryTracking.Controllers
     public class VehiclesController : Controller
     {
         private readonly ILoggerManager _logger;
-        private readonly IVehiclesRepository _vehiclesRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VehiclesController"/> class.
         /// </summary>
-        /// <param name="vehiclesRepository">The repository for retrieving information about vehicles.</param>
-        public VehiclesController(ILoggerManager logger, IVehiclesRepository vehiclesRepository)
+        /// <param name="unitOfWork">The repository for unit of work pattern.</param>
+        public VehiclesController(ILoggerManager logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _vehiclesRepository = vehiclesRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace FoodDeliveryTracking.Controllers
             try
             {
                 // Repository response.
-                var repositoryResponse = await _vehiclesRepository.GetAllAsync();
+                var repositoryResponse = await _unitOfWork.VehiclesRepository.GetAllVehiclesAsync();
 
                 // ICollection to response.
                 ICollection<VehicleResponse> vehicles = new List<VehicleResponse>();
@@ -67,8 +68,8 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                var result = await _vehiclesRepository.InsertVehicleAsync(vehicle);
-                if (result)
+                await _unitOfWork.VehiclesRepository.InsertVehicleAsync(vehicle);
+                if (await _unitOfWork.SaveAsync())
                 {
                     return Ok(MessageResponse<String>.Success($"Vehicle added successfully."));
                 }
@@ -94,8 +95,8 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                var result = await _vehiclesRepository.UpdateVehicleLocationAsync(vehicleId, location);
-                if (result)
+                await _unitOfWork.VehiclesRepository.UpdateVehicleLocationAsync(vehicleId, location);
+                if (await _unitOfWork.SaveAsync())
                 {
                     return Ok(MessageResponse<String>.Success("Vehicle location updated successfully."));
                 }
@@ -120,7 +121,7 @@ namespace FoodDeliveryTracking.Controllers
         {
             try
             {
-                var location = await _vehiclesRepository.GetVehicleLocationAsync(vehicleId);
+                var location = await _unitOfWork.VehiclesRepository.GetVehicleLocationAsync(vehicleId);
                 if (location != null)
                 {
                     return Ok(MessageResponse<ILocation>.Success(location));
